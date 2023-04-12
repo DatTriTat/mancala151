@@ -23,7 +23,7 @@ public class MancalaTest {
 		 * INITIAL SCREEN (STYLES)
 		 * Display 2 buttons for users to choose a style
 		 */
-		JPanel initialScreen = new InitialPanel(new Style1(), new Style2());
+		JPanel initialScreen = new InitialPanel(new NightStyle(), new LightStyle());
 		
 		frame.add(initialScreen);
 		
@@ -37,6 +37,11 @@ public class MancalaTest {
 		 * GAME SCREEN
 		 * Display board with stones and undo button
 		 */
+		
+		JButton undoButton = new JButton("Undo");
+		undoButton.addActionListener(event -> {
+			//undo 3 times max
+		});
 		
 		/*
 		 * WINNER SCREEN?
