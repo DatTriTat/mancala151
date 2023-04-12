@@ -14,9 +14,11 @@ import javax.swing.JPanel;
  * @version 4/11/2023
  */
 public class MancalaTest {
-	
+	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_HEIGHT = 550;
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
+		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setTitle("Mancala by pebbles");
 		
 		/*
@@ -48,7 +50,6 @@ public class MancalaTest {
 		 * Display who won the game
 		 */
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
 		frame.setVisible(true);
 		
 	}
