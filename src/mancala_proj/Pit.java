@@ -55,6 +55,7 @@ public class Pit extends JPanel{
 		pit.subtractStone();
 	}
 	
+	//testing
 	public static void main(String args[]) {
 		JFrame frame = new JFrame();
 		Pit p = new Pit("A3",Color.GREEN);
