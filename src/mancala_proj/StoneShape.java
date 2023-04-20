@@ -20,13 +20,13 @@ import javax.swing.Icon;
  *
  */
 
-public class StoneIcon implements Shape{
-	private static final int STONE_DIAMETER = 20;
+public class StoneShape implements Shape{
+	private static final int STONE_DIAMETER = 20; 
 	private Color color;
 	private int x;
 	private int y;
 	
-	public StoneIcon(int x, int y, Color color) {
+	public StoneShape(int x, int y, Color color) {
 		this.color = color;
 		this.x = x;
 		this.y = y;
@@ -61,25 +61,6 @@ public class StoneIcon implements Shape{
 		return yNew;
 		
 	}
-
-//	@Override
-//	public void paintIcon(Component c, Graphics g, int x, int y) {
-//		// TODO Auto-generated method stub
-//		Graphics2D g2 = (Graphics2D) g;
-//		g2.setColor(color);
-//		Ellipse2D.Double stone = new Ellipse2D.Double(x, y, STONE_DIAMETER, STONE_DIAMETER);
-//		g2.fill(stone);
-//	}
-//
-//	@Override
-//	public int getIconWidth() {
-//		return STONE_DIAMETER;
-//	}
-//
-//	@Override
-//	public int getIconHeight() {
-//		return STONE_DIAMETER;
-//	}
 
 	@Override
 	public Rectangle getBounds() {

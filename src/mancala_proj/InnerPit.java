@@ -24,7 +24,7 @@ public class InnerPit extends JPanel implements ChangeListener{
 	public static final Color STONE_COLOR = Color.GRAY;
 	
 	private String label;
-	private ArrayList<StoneIcon> stones;
+	private ArrayList<StoneShape> stones;
 	private int xStone = 0;
 	private int yStone = 0;
 	
@@ -44,7 +44,7 @@ public class InnerPit extends JPanel implements ChangeListener{
 	}
 	//add, remove stones methods --> repaint
 	public void addStone() {
-		StoneIcon stone = new StoneIcon(xStone,yStone,STONE_COLOR);
+		StoneShape stone = new StoneShape(xStone,yStone,STONE_COLOR);
 		stones.add(stone);
 		xStone = stone.getNextX(PIT_WIDTH);
 		yStone = stone.getNextY(PIT_WIDTH, xStone);
@@ -61,7 +61,7 @@ public class InnerPit extends JPanel implements ChangeListener{
 		Graphics2D g2 = (Graphics2D) g;
 		System.out.println("Size: " + stones.size());
 		//loop and draw the stones
-		for(StoneIcon s: stones) {
+		for(StoneShape s: stones) {
 			s.draw(g2);
 		}
 	}
