@@ -20,15 +20,17 @@ public class MancalaTest {
 		JFrame frame = new JFrame();
 		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		frame.setTitle("Mancala by pebbles");
-		
+        MancalaBoard board = new MancalaBoard(1000, 600);
+
 		/*
 		 * INITIAL SCREEN (STYLES)
 		 * Display 2 buttons for users to choose a style
 		 */
 		JPanel initialScreen = new InitialPanel(new NightStyle(), new LightStyle());
-		
-		frame.add(initialScreen);
-		
+		frame.setLayout(new BorderLayout());
+
+		frame.add(initialScreen, BorderLayout.LINE_START );
+		frame.add(board,BorderLayout.CENTER);
 		/**
 		 * SECOND SCREEN (BOARD SET-UP)
 		 * Display empty board and ask if player wants 3 or 4 stones per pit
@@ -49,6 +51,7 @@ public class MancalaTest {
 		 * WINNER SCREEN?
 		 * Display who won the game
 		 */
+		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
