@@ -1,66 +1,111 @@
 package mancala_proj;
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class MancalaBoard extends JPanel {
-    private int width;
-    private int height;
-    private int[] player1Holes;
-    private int[] player2Holes;
-    private int player1Mancala;
-    private int player2Mancala;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.TreeMap;
+
+public class MancalaBoard extends JPanel implements ChangeListener{
+	private static final int GAP_SIZE = 25;
+	
+	private DataModel model;
+	private TreeMap<String, Integer> dataMap;
+	private JPanel pitsPanel;
+    private ArrayList<LabeledPit> pits;
+    private StyleManager style;
+    private MancalaPit player1Mancala;
+    private MancalaPit player2Mancala;
     private int currentPlayer;
 
-    public MancalaBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
-        player1Holes = new int[] {4, 4, 4, 4, 4, 4, 0};
-        player2Holes = new int[] {4, 4, 4, 4, 4, 4, 0};
-        player1Mancala = 0;
-        player2Mancala = 0;
-        currentPlayer = 1;
-        setPreferredSize(new Dimension(width, height));
+    public MancalaBoard(DataModel model) {
+        setLayout(new FlowLayout());
+        this.model = model;
+        style = null;
+        dataMap = model.getData();
+        pits = new ArrayList<>();
+        for(String s: dataMap.keySet()) {
+        	LabeledPit aPit = new LabeledPit(model, s);
+        	pits.add(aPit);
+        	int numStones = dataMap.get(s);
+        	for (int i = 0; i < numStones; i++) {
+        		aPit.addStone();
+        	}
+        }
+        pitsPanel = new JPanel();
+        GridLayout gridLayout = new GridLayout(2,6);
+        gridLayout.setHgap(GAP_SIZE);
+        gridLayout.setVgap(GAP_SIZE);
+        pitsPanel.setLayout(gridLayout);
+        
+        for(LabeledPit pit: pits) {
+        	pitsPanel.add(pit);
+        }
+        
+        player1Mancala = new MancalaPit();
+        player2Mancala = new MancalaPit();
+        add(player1Mancala);
+        add(pitsPanel);
+        add(player2Mancala);
+        currentPlayer = 1;  
+    }
+    
+    public void setStyle(StyleManager style) {
+    	this.style = style;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-
-        // Draw the Mancala board
-        int x = 200;
-        int y = 350;
-        int holeSize = 50;
-        int mancalaWidth = 100;
-        int mancalaHeight = 200;
-        int mancalaGap = 50;
-        g2d.drawRect(0, 0, width, height);
-
-        // Draw the first player's holes
-        for (int i = 0; i < 6; i++) {
-            g2d.drawOval(x, y, holeSize, holeSize);
-            g2d.drawString(Integer.toString(player1Holes[i]), x+holeSize/2, y+holeSize/2);
-            x += holeSize + mancalaGap;
+        if(style != null) {
+        	setBackground(style.getBoardColor());
+        	pitsPanel.setBackground(style.getBoardColor());
+	        for(LabeledPit pit: pits) {
+	        	pit.setColor(style);
+	        }
+	        player1Mancala.setColor(style);
+	        player2Mancala.setColor(style);
         }
-
-        // Draw the second player's holes
-        x = 700;
-        y = 200;
-        for (int i = 0; i < 6; i++) {
-            g2d.drawOval(x, y, holeSize, holeSize);
-            g2d.drawString(Integer.toString(player2Holes[i]), x+holeSize/2, y+holeSize/2);
-            x -= holeSize + mancalaGap;
+        int currListIndex = 0;
+        
+        for(String s: dataMap.keySet()) {
+        	int numStones = dataMap.get(s);
+        	LabeledPit aPit = pits.get(currListIndex);
+        	
+        	for (int i = aPit.getPit().getStones().size(); i < numStones; i++) {
+        		aPit.addStone();
+        	}
+        	for (int i = aPit.getPit().getStones().size(); i > numStones; i--) {
+        		aPit.subtractStone();
+        	}
+        	aPit.repaint();
+        	currListIndex++;
         }
-
-        // Draw the first player's Mancala
-        g2d.drawRect(50, height/2 - mancalaHeight/2, mancalaWidth, mancalaHeight);
-        g2d.drawString(Integer.toString(player1Mancala), 50+mancalaWidth/2, height/2);
-
-        // Draw the second player's Mancala
-        g2d.drawRect(width - mancalaWidth - 50, height/2 - mancalaHeight/2, mancalaWidth, mancalaHeight);
-        g2d.drawString(Integer.toString(player2Mancala), width-mancalaWidth/2-50, height/2);
-
-        // Draw the current player
-        g2d.drawString("Player " + currentPlayer + "'s turn", width/2, height-50);
+        
+        for (int i = player1Mancala.getStones().size(); i < model.getPlayer1(); i++) {
+    		player1Mancala.addStone();
+    	}
+        for (int i = player1Mancala.getStones().size(); i > model.getPlayer1(); i--) {
+    		player1Mancala.subtractStone();
+    	}
+        
+        for (int i = player2Mancala.getStones().size(); i < model.getPlayer2(); i++) {
+    		player2Mancala.addStone();
+    	}
+        for (int i = player2Mancala.getStones().size(); i > model.getPlayer2(); i--) {
+    		player2Mancala.subtractStone();
+    	}
+        
+        
+//        g2d.drawString("Player " + currentPlayer + "'s turn", width/2, height-50);
     }
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO Auto-generated method stub
+		dataMap = model.getData();
+		repaint();
+	}
 
 }

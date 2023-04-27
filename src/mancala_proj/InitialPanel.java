@@ -18,21 +18,23 @@ public class InitialPanel extends JPanel{
 	 * @param s1 a style of the Mancala board
 	 * @param s2 a style of the Mancala board
 	 */
-	public InitialPanel(StyleManager s1, StyleManager s2) {
+	public InitialPanel(StyleManager s1, StyleManager s2, MancalaBoard board, JPanel gamePanel) {
 		JLabel stylePrompt = new JLabel("Choose a style:");
 		//change names of buttons after we figure out the styles
 		JButton style1Button = new JButton(s1.getName());
 		JButton style2Button = new JButton(s2.getName());
 		style1Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//tell MancalaTest.java that style 1 was chosen somehow --> model?
+				board.setStyle(s1);
 				setVisible(false); //hides the panel
+				gamePanel.setVisible(true);
 			}
 		});
 		style2Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				//tell MancalaTest.java that style 2 was chosen somehow
+				board.setStyle(s2);
 				setVisible(false); //hides the panel
+				gamePanel.setVisible(true);
 			}
 		});
 		add(stylePrompt);

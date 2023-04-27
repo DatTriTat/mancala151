@@ -15,20 +15,44 @@ public class DataModel {
 	public DataModel(TreeMap<String, Integer> d) {
 		data = d;
 		listeners = new ArrayList<ChangeListener>();
-		data.put("A", 0);
-		data.put("B", 0);
-		data.put("C", 0);
-		data.put("D", 0);
-		data.put("E", 0);
-		data.put("F", 0);
-		data.put("a", 0);
-		data.put("b", 0);
-		data.put("c", 0);
-		data.put("d", 0);
-		data.put("e", 0);
-		data.put("f", 0);
+		data.put("A1", 0);
+		data.put("A2", 0);
+		data.put("A3", 0);
+		data.put("A4", 0);
+		data.put("A5", 0);
+		data.put("A6", 0);
+		data.put("B1", 0);
+		data.put("B2", 0);
+		data.put("B3", 0);
+		data.put("B4", 0);
+		data.put("B5", 0);
+		data.put("B6", 0);
 		player1 = 0;
 		player2 = 0;
+	}
+	
+	/**
+	 * Returns the data structure
+	 * @return the date structure
+	 */
+	public TreeMap<String, Integer> getData(){
+		return data;
+	}
+	
+	/**
+	 * Returns the number of stones player 1 has in their mancala.
+	 * @return the number of stones player 1 has in their mancala
+	 */
+	public int getPlayer1() {
+		return player1;
+	}
+	
+	/**
+	 * Returns the number of stones player 2 has in their mancala.
+	 * @return the number of stones player 2 has in their mancala
+	 */
+	public int getPlayer2() {
+		return player2;
 	}
 	
 	/*
@@ -50,7 +74,7 @@ public class DataModel {
 	/*
 	 * Changes data based on pit chosen.
 	 */
-	public void changeData(LabeledPit pit) {
+	public void changeData(Pit pit) {
 		String choice = pit.getName();
 		int amount = data.get(choice);
 		int charVal = choice.charAt(0);

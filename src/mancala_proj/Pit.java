@@ -51,11 +51,18 @@ public class Pit extends JPanel implements ChangeListener{
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
+	/**
+	 * Returns the list the stones.
+	 * @return the list of stones
+	 */
+	public ArrayList<StoneShape> getStones(){
+		return stones;
+	}
 	
 	/**
-	 * Adds a stone to this pit.
+	 * Adds a stone to this pit. //use flowlayout instead? --> stone is a icon
 	 */
-	public void addStone() {
+	public void addStone() { 
 		StoneShape stone = new StoneShape(xStone,yStone,STONE_COLOR);
 		stones.add(stone);
 		xStone = stone.getNextXAfterAdd(PIT_WIDTH);
