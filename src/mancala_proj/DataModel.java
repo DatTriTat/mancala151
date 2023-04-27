@@ -13,7 +13,6 @@ public class DataModel {
 	private int player2;
 	private boolean turn;
 	
-	
 	public DataModel(TreeMap<String, Integer> d) {
 		data = d;
 		listeners = new ArrayList<ChangeListener>();
@@ -31,6 +30,30 @@ public class DataModel {
 		data.put("B6", 0);
 		player1 = 0;
 		player2 = 0;
+	}
+	
+	/**
+	 * Returns the data structure
+	 * @return the date structure
+	 */
+	public TreeMap<String, Integer> getData(){
+		return data;
+	}
+	
+	/**
+	 * Returns the number of stones player 1 has in their mancala.
+	 * @return the number of stones player 1 has in their mancala
+	 */
+	public int getPlayer1() {
+		return player1;
+	}
+	
+	/**
+	 * Returns the number of stones player 2 has in their mancala.
+	 * @return the number of stones player 2 has in their mancala
+	 */
+	public int getPlayer2() {
+		return player2;
 	}
 	
 	/*
