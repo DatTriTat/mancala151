@@ -11,6 +11,7 @@ public class DataModel {
 	private ArrayList<ChangeListener> listeners;
 	private int player1;
 	private int player2;
+	private boolean turn;
 	
 	public DataModel(TreeMap<String, Integer> d) {
 		data = d;
@@ -72,42 +73,86 @@ public class DataModel {
 	}
 	
 	/*
-	 * Changes data based on pit chosen.
+	 * Set who's turn it is.
 	 */
-	public void changeData(Pit pit) {
-		String choice = pit.getName();
-		int amount = data.get(choice);
-		int charVal = choice.charAt(0);
-		String next = null;
+	public void setTurn(boolean t) {
+		turn = t;
+	}
+	
+	/*
+	 * Changes data based on pit chosen and who's turn it is.
+	 */
+	public void changeData(LabeledPit pit) {
+		String choice = pit.getLabel(); //get pit label
+		int amount = data.get(choice); //get amount of pebbles in pit
+		char charVal = choice.charAt(0); //get pit letter
+		int intVal = Character.getNumericValue(choice.charAt(1)); //get pit number
+		String curr = null;
 		while (amount > 0) {
-			next = String.valueOf((char) (charVal + 1));
-			if (next.equals("G")) {
+			curr = charVal + Integer.toString(intVal + 1); //next pit to place pebble in
+			if (curr.equals("A7") && turn) { //if next pit is p1 mancala and it is p1's turn increase p1 score
 				player1++;
 				amount--;
-				if (amount == 0) {
-					// how to trigger a bonus turn?
-					break;
+				if (amount == 0) { //if p1 final pebble lands in p1 mancala --> receive another turn
+					turn = true;
+					return;
 				}
-				next = "a";
+				else {
+					curr = "B1"; //if there are still remaining pebbles during p1's turn, go to p2 pits
+				}
 			}
-			else if (next.equals("g")) {
+			else if (curr.equals("A7") && !turn) { //if next pit is p1 mancala and it is p2's turn, set to p2 pits
+				curr = "B1";
+			}
+			else if (curr.equals("B7") && !turn) { //if next pit is p2 mancala and it is p2's turn increase p2 score
 				player2++;
 				amount--;
-				if (amount == 0) {
-					// how to trigger a bonus turn?
-					break;
+				if (amount == 0) { //if p2 final pebble lands in p2 mancala --> receive another turn
+					turn = false;
+					return;
 				}
-				next = "A";
+				else {
+					curr = "A1"; //if there are still remaining pebbles during p2's turn, go to p1 pits
+				}
 			}
-			data.put(next, data.get(next) + 1);
-			charVal = next.charAt(0);
+			else if (curr.equals("B7") && turn) { //if next pit is p2 mancala and it is p1's turn, set to p1 pits
+				curr = "A1";
+			}
+			
+			data.put(curr, data.get(curr) + 1); //add pebble to current pit
 			amount--;
 		}
 		
-		// if you land in an empty pit, collect stones on both sides and add to mancala
-		if (data.get(next) == 1 ) {
-			
+		int acrossPit = 7 - Character.getNumericValue(curr.charAt(1));
+		
+		//CAPTURE:
+		//if p1 turn && p1 lands in their own pit && their pit is empty (except for just placed pebble) && pit across board contains pebbles
+		if (turn && curr.charAt(0) == ("A").charAt(0) && data.get(curr) == 1 && data.get("B" + Integer.toString(acrossPit)) != 0) {
+			player1 += data.get(curr) + data.get("B" + Integer.toString(acrossPit));
+			data.put(curr, 0);
+			data.put("B" + Integer.toString(acrossPit), 0);
+			turn = false;
+			return;
 		}
+		//if p2 turn && p2 lands in their own pit && their pit is empty (except for just placed pebble) && pit across board contains pebbles
+		else if (!turn && curr.charAt(0) == ("B").charAt(0) && data.get(curr) == 1 && data.get("A" + Integer.toString(acrossPit)) != 0) {
+			player2 += data.get(curr) + data.get("B" + Integer.toString(acrossPit));
+			data.put(curr, 0);
+			data.put("B" + Integer.toString(acrossPit), 0);
+			turn = true;
+			return;
+		}
+		else { //change turns
+			if (turn) {
+				turn = false;
+				return;
+			}
+			else if (!turn) {
+				turn = true;
+				return;
+			}
+		}
+
 	}
 	
 	public void attach(ChangeListener c) {
