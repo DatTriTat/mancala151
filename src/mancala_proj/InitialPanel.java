@@ -1,4 +1,8 @@
 package mancala_proj;
+/**
+ * This program implements the initial screen of the Mancala game.
+ * @author pebbles
+ */
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,21 +10,20 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-/**
- * This class implements the initial screen of the Mancala game.
- * @author pebbles
- * @version 4/12/2023
- */
 
+/**
+ * Implements the initial screen that allows the user to pick the desired style of the Mancala board.
+ */
 public class InitialPanel extends JPanel{
 	/**
 	 * Creates two buttons that determine the style of the Mancala board
-	 * @param s1 a style of the Mancala board
-	 * @param s2 a style of the Mancala board
+	 * @param board the Mancala board to set style
+	 * @param gamePanel the game screen to appear after the initial screen
 	 */
-	public InitialPanel(StyleManager s1, StyleManager s2, MancalaBoard board, JPanel gamePanel) {
+	public InitialPanel(MancalaBoard board, JPanel gamePanel) {
 		JLabel stylePrompt = new JLabel("Choose a style:");
-		//change names of buttons after we figure out the styles
+		final StyleManager s1 = new NightStyle();
+		final StyleManager s2 = new LightStyle();
 		JButton style1Button = new JButton(s1.getName());
 		JButton style2Button = new JButton(s2.getName());
 		style1Button.addActionListener(new ActionListener() {

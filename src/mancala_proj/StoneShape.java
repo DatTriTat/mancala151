@@ -1,5 +1,10 @@
 package mancala_proj;
 
+/**
+ * This program represents a Mancala stone.
+ * @author pebbles
+ */
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -10,11 +15,8 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-
 /**
- * This class represents a stone
- * @author pebbles
- *
+ * This class represents a stone.
  */
 
 public class StoneShape implements Shape{

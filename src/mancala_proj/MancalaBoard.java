@@ -1,4 +1,8 @@
 package mancala_proj;
+/**
+ * This program implements the Mancala board.
+ * @author pebbles
+ */
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -7,6 +11,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * This class implements the Mancala board, which consists of labeled pits and Mancala pits.
+ */
 public class MancalaBoard extends JPanel implements ChangeListener{
 	private static final int GAP_SIZE = 25;
 	
@@ -19,6 +26,10 @@ public class MancalaBoard extends JPanel implements ChangeListener{
     private MancalaPit player2Mancala;
     private int currentPlayer;
 
+    /**
+     * Constructs this board.
+     * @param model the model that manages the data and views. 
+     */
     public MancalaBoard(DataModel model) {
         setLayout(new FlowLayout());
         this.model = model;
@@ -51,6 +62,10 @@ public class MancalaBoard extends JPanel implements ChangeListener{
         currentPlayer = 1;  
     }
     
+    /**
+     * Sets the style of this board.
+     * @param style the style to set this board to.
+     */
     public void setStyle(StyleManager style) {
     	this.style = style;
     }
@@ -97,13 +112,14 @@ public class MancalaBoard extends JPanel implements ChangeListener{
     		player2Mancala.subtractStone();
     	}
         
-        
-//        g2d.drawString("Player " + currentPlayer + "'s turn", width/2, height-50);
     }
 
+    /**
+     * Changes the state of this board according to the model.
+     * @param e the change event
+     */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
 		dataMap = model.getData();
 		repaint();
 	}
