@@ -1,9 +1,6 @@
 package mancala_proj;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
@@ -18,20 +15,32 @@ import javax.swing.JTextField;
  * @version 4/11/2023
  */
 public class MancalaTest {
-	public static final int DEFAULT_WIDTH = 1100;
-	public static final int DEFAULT_HEIGHT = 380;
+	public static final int DEFAULT_FRAME_WIDTH = 1100;
+	public static final int DEFAULT_FRAME_HEIGHT = 380;
+	public static final int MIN_INITIAL_STONE = 3;
+	public static final int MAX_INITIAL_STONE = 4;
+	public static final int ASK_STONE_AMT_FIELD_SIZE = 5;
 	
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		/* 
+		 * DIFFERENT PARTS:
+		 * frame = the frame
+		 * initialScreen = the initial screen asking for desired style
+		 * secondScreen = the game screen after initial screen
+		 * gamePanel = center of second screen; the board with player and Mancala labels
+		 * numStonesPanel = bottom of second screen; asks to enter initial stone per pit amount
+		 * undoButton = top of second screen; allows player to undo 3x maximum in their current turn
+		 */
+		JFrame frame = new JFrame(); //the frame
+		frame.setSize(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT);
 		frame.setTitle("Mancala by pebbles");
 		DataModel model = new DataModel(new TreeMap<String, Integer>());
-		JPanel secondScreen = new JPanel();
+		
+		JPanel secondScreen = new JPanel(); //the game screen after initial screen
 		secondScreen.setLayout(new BorderLayout());
 		secondScreen.setVisible(false);
 		
-		
-		JPanel gamePanel = new JPanel();
+		JPanel gamePanel = new JPanel(); //the board with player and Mancala labels
 		gamePanel.setLayout(new BorderLayout());
         MancalaBoard board = new MancalaBoard(model);
         gamePanel.add(board, BorderLayout.CENTER);
@@ -49,7 +58,7 @@ public class MancalaTest {
 		 * INITIAL SCREEN (STYLES)
 		 * Display 2 buttons for users to choose a style and go to gamePanel
 		 */
-		JPanel initialScreen = new InitialPanel(board, secondScreen);
+		JPanel initialScreen = new InitialPanel(board, secondScreen); //the initial screen asking for desired style
 		frame.setLayout(new BorderLayout());
 
 		frame.add(initialScreen, BorderLayout.NORTH);
@@ -57,11 +66,11 @@ public class MancalaTest {
 		model.attach(board);
 		/**
 		 * SECOND SCREEN (BOARD SET-UP)
-		 * Display empty board and ask if player wants 3 or 4 stones per pit
+		 * Display empty board (done in initial panel) and ask if player wants 3 or 4 stones per pit
 		 */
-		JPanel numStonesPanel = new JPanel();
-		JLabel label = new JLabel("Enter initial number of stones per pit (3 or 4): ");
-		JTextField field = new JTextField(5);
+		JPanel numStonesPanel = new JPanel(); //ask and enter stone amount
+		JLabel label = new JLabel("Enter initial number of stones per pit (" + MIN_INITIAL_STONE + " or " + MAX_INITIAL_STONE+ "):");
+		JTextField field = new JTextField(ASK_STONE_AMT_FIELD_SIZE);
 		numStonesPanel.add(label);
 		numStonesPanel.add(field);
 		secondScreen.add(numStonesPanel,BorderLayout.SOUTH);
@@ -73,7 +82,7 @@ public class MancalaTest {
 		startButton.addActionListener(event -> {
 			try {
 				int numStones = Integer.parseInt(field.getText());
-				if(numStones == 3 || numStones == 4) {
+				if(numStones == MIN_INITIAL_STONE || numStones == MAX_INITIAL_STONE) {
 					model.setData(numStones);
 					model.update();
 					numStonesPanel.setVisible(false);
@@ -99,7 +108,6 @@ public class MancalaTest {
 		 * WINNER SCREEN?
 		 * Display who won the game
 		 */
-//		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
