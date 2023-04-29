@@ -12,7 +12,11 @@ import javax.swing.JTextField;
 /**
  * This program tests the Mancala game
  * @author pebbles
- * @version 4/11/2023
+ */
+
+/**
+ * 
+ * This class creates the visual components of the frame that work with the model to make a functioning Mancala game.
  */
 public class MancalaTest {
 	public static final int DEFAULT_FRAME_WIDTH = 1100;
@@ -21,6 +25,10 @@ public class MancalaTest {
 	public static final int MAX_INITIAL_STONE = 4;
 	public static final int ASK_STONE_AMT_FIELD_SIZE = 5;
 	
+	/**
+	 * Creates the frame with an initial screen, Mancala board, undo button, and, initial stone set up prompt that work with the model.
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
 		/* 
 		 * DIFFERENT PARTS:

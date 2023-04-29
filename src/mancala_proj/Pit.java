@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 /**
- * This class represents a pit, which contains stones
+ * This class represents a pit, which can contain stones.
  */
 public class Pit extends JPanel implements ChangeListener{
 	public static final int PIT_WIDTH = 100;
@@ -129,25 +129,11 @@ public class Pit extends JPanel implements ChangeListener{
 			
 		}
 	}
-	//testing
-	public static void main(String args[]) {
-		JFrame frame = new JFrame();
-		Pit p = new Pit("A3");
-		p.addStone();
-		p.addStone();
-		p.setBackground(Color.GREEN);
-		Pit p1 = new Pit("A2");
-		p1.addStone();
-		frame.setLayout(new FlowLayout());
-		p1.setBackground(Color.GREEN);
-		frame.add(p);
-		frame.add(p1);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500,500);
-		frame.setVisible(true);
-		
-	}
 
+	/**
+	 * Changes the state of this pit according to the model.
+	 * @param e the change event
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub

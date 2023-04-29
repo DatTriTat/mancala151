@@ -1,5 +1,8 @@
 package mancala_proj;
-
+/**
+ * This program represents a Mancala.
+ * @author pebbles
+ */
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -9,7 +12,9 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-
+/**
+ * This class represents a Mancala, which can hold stones.
+ */
 public class MancalaPit extends JPanel{
 	public static final int PIT_WIDTH = 100;
 	public static final int PIT_HEIGHT = 225;
@@ -37,7 +42,7 @@ public class MancalaPit extends JPanel{
 	}
 	
 	/**
-	 * Adds a stone to this pit. //use flowlayout instead? --> stone is a icon
+	 * Adds a stone to this pit.
 	 */
 	public void addStone() { 
 		StoneShape stone = new StoneShape(xStone,yStone,STONE_COLOR);
@@ -48,7 +53,7 @@ public class MancalaPit extends JPanel{
 	}
 	
 	/**
-	 * Takes away a stone from this pit.
+	 * Removes a stone from this Mancala.
 	 */
 	public void subtractStone() {
 		if(stones.size() > 0) {
