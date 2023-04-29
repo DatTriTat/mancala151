@@ -15,12 +15,13 @@ import javax.swing.JPanel;
 public class InitialPanel extends JPanel{
 	/**
 	 * Creates two buttons that determine the style of the Mancala board
-	 * @param s1 a style of the Mancala board
-	 * @param s2 a style of the Mancala board
+	 * @param board the Mancala board to set style
+	 * @param gamePanel the game screen to appear after the initial screen
 	 */
-	public InitialPanel(StyleManager s1, StyleManager s2, MancalaBoard board, JPanel gamePanel) {
+	public InitialPanel(MancalaBoard board, JPanel gamePanel) {
 		JLabel stylePrompt = new JLabel("Choose a style:");
-		//change names of buttons after we figure out the styles
+		final StyleManager s1 = new NightStyle();
+		final StyleManager s2 = new LightStyle();
 		JButton style1Button = new JButton(s1.getName());
 		JButton style2Button = new JButton(s2.getName());
 		style1Button.addActionListener(new ActionListener() {

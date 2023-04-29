@@ -20,8 +20,6 @@ import javax.swing.JTextField;
 public class MancalaTest {
 	public static final int DEFAULT_WIDTH = 1100;
 	public static final int DEFAULT_HEIGHT = 380;
-	public static final LightStyle DAY_STYLE = new LightStyle();
-	public static final NightStyle NIGHT_STYLE = new NightStyle();
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -51,7 +49,7 @@ public class MancalaTest {
 		 * INITIAL SCREEN (STYLES)
 		 * Display 2 buttons for users to choose a style and go to gamePanel
 		 */
-		JPanel initialScreen = new InitialPanel(new NightStyle(), new LightStyle(), board, secondScreen);
+		JPanel initialScreen = new InitialPanel(board, secondScreen);
 		frame.setLayout(new BorderLayout());
 
 		frame.add(initialScreen, BorderLayout.NORTH);
