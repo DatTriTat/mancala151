@@ -95,39 +95,6 @@ public class LabeledPit extends JPanel{
 		label.setOpaque(true);
 		label.setBackground(style.getBoardColor());
 	}
-	
-//	//testing
-//	public static void main(String args[]) {
-//		JFrame frame = new JFrame();
-//		
-//		LabeledPit p = new LabeledPit("B3");
-//		p.addStone();
-//		p.addStone();
-//		LabeledPit p1 = new LabeledPit("B2");
-//		p1.addStone();
-//		LabeledPit p2 = new LabeledPit("A1");
-//		LabeledPit p3 = new LabeledPit("A2");
-//		p3.addStone();
-//		p3.addStone();
-//		p3.addStone();
-//		p3.subtractStone();
-//		p3.addStone();
-//		
-//		p.setColor(Color.GREEN);
-//		p1.setColor(Color.GREEN);
-//		p2.setColor(Color.GREEN);
-//		p3.setColor(Color.GREEN);
-//		
-//		frame.setLayout(new FlowLayout());
-//		frame.add(p);
-//		frame.add(p1);
-//		frame.add(p2);
-//		frame.add(p3);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setSize(500,500);
-//		frame.setVisible(true);
-//		
-//	}
 
 //	//testing
 //	public static void main(String args[]) {

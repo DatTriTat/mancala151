@@ -3,7 +3,6 @@ package mancala_proj;
 import java.awt.Color;
 
 /**
- * This class implements the lightmmode style of the Mancala board
  * This class implements the lightmode style of the Mancala board
  * @author pebbles
  * @version 4/12/2023
@@ -14,6 +13,18 @@ public class LightStyle implements StyleManager{
 
 	public String getName() {
 		return "Day";
+	}
+	
+	public Color getPitColor() {
+		return VERY_LIGHT_YELLOW;
+	}
+	
+	public Color getBoardColor() {
+		return LIGHT_BLUE;
+	}
+
+	public Color getFontColor() {
+		return Color.BLACK;
 	}
 
 	public Color getPitColor() {
