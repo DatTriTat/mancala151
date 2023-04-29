@@ -1,11 +1,11 @@
 package mancala_proj;
 
-import java.awt.Color;
-
 /**
  * Defines the light style of the Mancala board
  * @author pebbles
  */
+
+import java.awt.Color;
 
 /**
  * Defines the name and colors of the light style.

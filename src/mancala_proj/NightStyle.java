@@ -1,11 +1,9 @@
 package mancala_proj;
-
-import java.awt.Color;
-
 /**
  * This class defines the dark mode style of the Mancala board
  * @author pebbles
  */
+import java.awt.Color;
 
 /*
  * Defines the name and colors of the night style.

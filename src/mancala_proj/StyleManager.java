@@ -1,10 +1,9 @@
 package mancala_proj;
-
-import java.awt.Color;
 /**
  * Declares required methods of Mancala styles.
  * @author pebbles
  */
+import java.awt.Color;
 
 /**
  * Declares required methods of Mancala styles.
