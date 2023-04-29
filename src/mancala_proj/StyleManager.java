@@ -1,7 +1,14 @@
 package mancala_proj;
 
 import java.awt.Color;
+/**
+ * Declares required methods of Mancala styles.
+ * @author pebbles
+ */
 
+/**
+ * Declares required methods of Mancala styles.
+ */
 public interface StyleManager {
 	/**
 	 * Returns the name of this style.

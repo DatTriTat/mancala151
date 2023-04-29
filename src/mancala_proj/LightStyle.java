@@ -3,9 +3,12 @@ package mancala_proj;
 import java.awt.Color;
 
 /**
- * This class implements the light style of the Mancala board
+ * Defines the light style of the Mancala board
  * @author pebbles
- * @version 4/12/2023
+ */
+
+/**
+ * Defines the name and colors of the light style.
  */
 public class LightStyle implements StyleManager{
 	public static final Color VERY_LIGHT_YELLOW = new Color(255,255,204);
