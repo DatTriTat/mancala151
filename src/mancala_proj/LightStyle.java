@@ -27,4 +27,16 @@ public class LightStyle implements StyleManager{
 		return Color.BLACK;
 	}
 
+	public Color getPitColor() {
+		return VERY_LIGHT_YELLOW;
+	}
+
+	public Color getBoardColor() {
+		return LIGHT_BLUE;
+	}
+
+	public Color getFontColor() {
+		return Color.BLACK;
+	}
+
 }

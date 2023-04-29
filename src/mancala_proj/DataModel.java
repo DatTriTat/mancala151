@@ -12,6 +12,7 @@ public class DataModel {
 	private int player1;
 	private int player2;
 	private boolean turn;
+	private Deque<TreeMap<String, Integer>> undoStack = new ArrayDeque<TreeMap<String, Integer>>();
 	
 	public DataModel(TreeMap<String, Integer> d) {
 		data = d;
@@ -153,6 +154,28 @@ public class DataModel {
 			}
 		}
 
+	}
+	
+	public void pushUndo() {
+		TreeMap<String, Integer> clone = new TreeMap<String, Integer>();
+		clone.put("A1", data.get("A1"));
+		clone.put("A2", data.get("A2"));
+		clone.put("A3", data.get("A3"));
+		clone.put("A4", data.get("A4"));
+		clone.put("A5", data.get("A5"));
+		clone.put("A6", data.get("A6"));
+		clone.put("B1", data.get("B1"));
+		clone.put("B2", data.get("B2"));
+		clone.put("B3", data.get("B3"));
+		clone.put("B4", data.get("B4"));
+		clone.put("B5", data.get("B5"));
+		clone.put("B6", data.get("B6"));
+		undoStack.push(clone);
+	}
+	
+	public void popUndo() {
+		TreeMap<String, Integer> board = undoStack.pop();
+		data = board;
 	}
 	
 	public void attach(ChangeListener c) {
