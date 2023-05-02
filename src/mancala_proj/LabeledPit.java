@@ -8,6 +8,9 @@ package mancala_proj;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +18,7 @@ import javax.swing.JPanel;
 /**
  * A labeled pit, consisting of a label and a Mancala pit.
  */
-public class LabeledPit extends JPanel{	
+public class LabeledPit extends JPanel implements MouseListener {	
 	private DataModel model;
 	private String letNum;
 	private Pit pit;
@@ -47,6 +50,8 @@ public class LabeledPit extends JPanel{
 		if(letter == 'B')
 			add(label, BorderLayout.SOUTH);
 		pit = new Pit(letterNum);
+		
+		addMouseListener(this);
 		add(pit, BorderLayout.CENTER);
 	}
 	
@@ -62,6 +67,14 @@ public class LabeledPit extends JPanel{
 	 */
 	public Pit getPit() {
 		return pit;
+	}
+	
+	/**
+	 * Returns the number of stones in the pit.
+	 * @return the number of stones in pit.
+	 */
+	public int getNumStones() {
+		return pit.getStones().size();
 	}
 	
 	/**
@@ -96,4 +109,26 @@ public class LabeledPit extends JPanel{
 		label.setOpaque(true);
 		label.setBackground(style.getBoardColor());
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(model.getGame()) {
+			Point2D point = new Point2D.Double(e.getX(), e.getY());
+			if (pit.contains(point)) {
+				model.pushUndo();
+				model.changeData(this);
+				model.update();
+			}
+		}
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }
