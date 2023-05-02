@@ -30,6 +30,11 @@ public class MancalaTest {
 	 * @param args unused
 	 */
 	public static void main(String[] args) {
+		DataModel model = new DataModel(new TreeMap<String, Integer>());
+		MancalaBoard board = new MancalaBoard(model);
+		
+		model.attach(board);
+		
 		/* 
 		 * DIFFERENT PARTS:
 		 * frame = the frame
@@ -39,10 +44,11 @@ public class MancalaTest {
 		 * numStonesPanel = bottom of second screen; asks to enter initial stone per pit amount
 		 * undoButton = top of second screen; allows player to undo 3x maximum in their current turn
 		 */
+		
+		
 		JFrame frame = new JFrame(); //the frame
 		frame.setSize(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT);
 		frame.setTitle("Mancala by pebbles");
-		DataModel model = new DataModel(new TreeMap<String, Integer>());
 		
 		JPanel secondScreen = new JPanel(); //the game screen after initial screen
 		secondScreen.setLayout(new BorderLayout());
@@ -50,7 +56,6 @@ public class MancalaTest {
 		
 		JPanel gamePanel = new JPanel(); //the board with player and Mancala labels
 		gamePanel.setLayout(new BorderLayout());
-        MancalaBoard board = new MancalaBoard(model);
         gamePanel.add(board, BorderLayout.CENTER);
         JLabel playerALabel = new JLabel("<-- Player A");
         playerALabel.setHorizontalAlignment(JLabel.CENTER);
@@ -72,6 +77,7 @@ public class MancalaTest {
 		frame.add(initialScreen, BorderLayout.NORTH);
 		frame.add(secondScreen,BorderLayout.CENTER);
 		model.attach(board);
+		
 		/**
 		 * SECOND SCREEN (BOARD SET-UP)
 		 * Display empty board (done in initial panel) and ask if player wants 3 or 4 stones per pit
@@ -83,15 +89,31 @@ public class MancalaTest {
 		numStonesPanel.add(field);
 		secondScreen.add(numStonesPanel,BorderLayout.SOUTH);
 		
+		
+		/*
+		 * GAME SCREEN
+		 * Display board with stones and undo button
+		 */
 		JButton undoButton = new JButton("Undo");
 		undoButton.setVisible(false);
+		undoButton.addActionListener(event -> {
+			try {
+				model.popUndo(); //undo 3 times max
+				model.update();
+			}
+			catch (Exception e){
+				
+			}
+		});
 		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(event -> {
 			try {
 				int numStones = Integer.parseInt(field.getText());
 				if(numStones == MIN_INITIAL_STONE || numStones == MAX_INITIAL_STONE) {
+					model.setGame(true);
 					model.setData(numStones);
+					model.setTurn(true);
 					model.update();
 					numStonesPanel.setVisible(false);
 					undoButton.setVisible(true);
@@ -102,14 +124,6 @@ public class MancalaTest {
 			}
 		});
 		numStonesPanel.add(startButton, BorderLayout.SOUTH);
-		/*
-		 * GAME SCREEN
-		 * Display board with stones and undo button
-		 */
-		
-		undoButton.addActionListener(event -> {
-			//undo 3 times max
-		});
 		secondScreen.add(undoButton, BorderLayout.NORTH);
 		
 		/*
@@ -118,6 +132,5 @@ public class MancalaTest {
 		 */
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 	}
 }

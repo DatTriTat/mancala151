@@ -1,12 +1,13 @@
 package mancala_proj;
+
 /**
- * This program implements the Mancala board.
+ * This program implements the Mancala board
  * @author pebbles
  */
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -14,37 +15,41 @@ import java.util.TreeMap;
 /**
  * This class implements the Mancala board, which consists of labeled pits and Mancala pits.
  */
-public class MancalaBoard extends JPanel implements ChangeListener{
+public class MancalaBoard extends JPanel implements ChangeListener {
 	private static final int GAP_SIZE = 25;
 	
 	private DataModel model;
 	private TreeMap<String, Integer> dataMap;
 	private JPanel pitsPanel;
     private ArrayList<LabeledPit> pits;
-    private StyleManager style;
     private MancalaPit player1Mancala;
     private MancalaPit player2Mancala;
-    private int currentPlayer;
+    private StyleManager style;
 
     /**
      * Constructs this board.
      * @param model the model that manages the data and views. 
      */
-    public MancalaBoard(DataModel model) {
-        setLayout(new FlowLayout());
-        this.model = model;
-        style = null;
-        dataMap = model.getData();
-        pits = new ArrayList<>();
-        for(String s: dataMap.keySet()) {
+    public MancalaBoard(DataModel m) {
+    	model = m; //set model of frame to DataModel
+    	style = null; //no style chosen yet
+    	pits = new ArrayList<>(); //arraylist of all pits
+        dataMap = model.getData(); //populate initial data structure
+    	
+        for(String s: dataMap.keySet()) { //create labeled pits for each entry
+        	if (s.equals("player1") || s.equals("player2")) { //skip player score entries
+        		continue;
+        	}
+
         	LabeledPit aPit = new LabeledPit(model, s);
-        	pits.add(aPit);
-        	int numStones = dataMap.get(s);
-        	for (int i = 0; i < numStones; i++) {
-        		aPit.addStone();
+            pits.add(aPit);
+            int numStones = dataMap.get(s);
+            for (int i = 0; i < numStones; i++) {
+            	aPit.addStone();
         	}
         }
-        pitsPanel = new JPanel();
+        
+        pitsPanel = new JPanel(); //create panel for pits
         GridLayout gridLayout = new GridLayout(2,6);
         gridLayout.setHgap(GAP_SIZE);
         gridLayout.setVgap(GAP_SIZE);
@@ -54,12 +59,12 @@ public class MancalaBoard extends JPanel implements ChangeListener{
         	pitsPanel.add(pit);
         }
         
+        setLayout(new FlowLayout());
         player1Mancala = new MancalaPit();
         player2Mancala = new MancalaPit();
         add(player1Mancala);
         add(pitsPanel);
         add(player2Mancala);
-        currentPlayer = 1;  
     }
     
     /**
@@ -70,6 +75,10 @@ public class MancalaBoard extends JPanel implements ChangeListener{
     	this.style = style;
     }
 
+    /**
+     * Paints mancala board.
+     * @param g graphics tool
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -82,36 +91,40 @@ public class MancalaBoard extends JPanel implements ChangeListener{
 	        player1Mancala.setColor(style);
 	        player2Mancala.setColor(style);
         }
-        int currListIndex = 0;
         
-        for(String s: dataMap.keySet()) {
-        	int numStones = dataMap.get(s);
-        	LabeledPit aPit = pits.get(currListIndex);
-        	
-        	for (int i = aPit.getPit().getStones().size(); i < numStones; i++) {
-        		aPit.addStone();
+        int currListIndex = 0; //keep track of which pit is currently being updated
+        for(String s: dataMap.keySet()) { //iterate through model to update stone amounts
+        	if (s.equals("player1")) { //update player1 mancala
+        		for (int i = player1Mancala.getNumStones(); i < dataMap.get("player1"); i++) {
+            		player1Mancala.addStone();
+            	}
+        		for (int i = player1Mancala.getNumStones(); i > dataMap.get("player1"); i--) {
+            		player1Mancala.subtractStone();
+            	}
+        		player1Mancala.repaint();
         	}
-        	for (int i = aPit.getPit().getStones().size(); i > numStones; i--) {
-        		aPit.subtractStone();
+        	else if (s.equals("player2")) { //update player2 mancala
+        		for (int i = player2Mancala.getNumStones(); i < dataMap.get("player2"); i++) {
+            		player2Mancala.addStone();
+            	}
+        		for (int i = player2Mancala.getNumStones(); i > dataMap.get("player2"); i--) {
+            		player2Mancala.subtractStone();
+            	}
+        		player2Mancala.repaint();
         	}
-        	aPit.repaint();
-        	currListIndex++;
+        	else { //update pits
+            	LabeledPit aPit = pits.get(currListIndex);
+            	for (int i = aPit.getNumStones(); i < dataMap.get(s); i++) {
+            		aPit.addStone();
+            	}
+            	for (int i = aPit.getNumStones(); i > dataMap.get(s); i--) {
+            		aPit.subtractStone();
+            	}
+            	aPit.repaint();
+            	
+            	currListIndex++;
+        	}
         }
-        
-        for (int i = player1Mancala.getStones().size(); i < model.getPlayer1(); i++) {
-    		player1Mancala.addStone();
-    	}
-        for (int i = player1Mancala.getStones().size(); i > model.getPlayer1(); i--) {
-    		player1Mancala.subtractStone();
-    	}
-        
-        for (int i = player2Mancala.getStones().size(); i < model.getPlayer2(); i++) {
-    		player2Mancala.addStone();
-    	}
-        for (int i = player2Mancala.getStones().size(); i > model.getPlayer2(); i--) {
-    		player2Mancala.subtractStone();
-    	}
-        
     }
 
     /**
@@ -122,6 +135,14 @@ public class MancalaBoard extends JPanel implements ChangeListener{
 	public void stateChanged(ChangeEvent e) {
 		dataMap = model.getData();
 		repaint();
+		if(model.totalP1() == 0 || model.totalP2() == 0){
+            model.endGame();
+			JFrame frame = new JFrame();
+            frame.setSize(300, 200);
+            frame.add(new WinningPanel(this, new JPanel(), model));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+            return;
+        }
 	}
-
 }

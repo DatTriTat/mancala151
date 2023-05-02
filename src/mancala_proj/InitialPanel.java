@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 /**
  * Implements the initial screen that allows the user to pick the desired style of the Mancala board.
  */
-public class InitialPanel extends JPanel{
+public class InitialPanel extends JPanel {
 	/**
 	 * Creates two buttons that determine the style of the Mancala board
 	 * @param board the Mancala board to set style

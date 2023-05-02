@@ -42,6 +42,14 @@ public class MancalaPit extends JPanel{
 	}
 	
 	/**
+	 * Returns the amount of stones in the mancala.
+	 * @return the amount of stones
+	 */
+	public int getNumStones(){
+		return stones.size();
+	}
+	
+	/**
 	 * Adds a stone to this pit.
 	 */
 	public void addStone() { 
