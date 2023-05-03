@@ -133,14 +133,5 @@ public class MancalaBoard extends JPanel implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		dataMap = model.getData();
 		repaint();
-		if(model.totalP1() == 0 || model.totalP2() == 0){
-            model.endGame();
-			JFrame frame = new JFrame();
-            frame.setSize(300, 200);
-            frame.add(new WinningPanel(this, new JPanel(), model));
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-            return;
-        }
 	}
 }

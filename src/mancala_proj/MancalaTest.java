@@ -15,12 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * 
  * This class creates the visual components of the frame that work with the model to make a functioning Mancala game.
  */
 public class MancalaTest {
 	public static final int DEFAULT_FRAME_WIDTH = 1100;
-	public static final int DEFAULT_FRAME_HEIGHT = 380;
+	public static final int DEFAULT_FRAME_HEIGHT = 385;
 	public static final int MIN_INITIAL_STONE = 3;
 	public static final int MAX_INITIAL_STONE = 4;
 	public static final int ASK_STONE_AMT_FIELD_SIZE = 5;
@@ -43,6 +42,7 @@ public class MancalaTest {
 		 * gamePanel = center of second screen; the board with player and Mancala labels
 		 * numStonesPanel = bottom of second screen; asks to enter initial stone per pit amount
 		 * undoButton = top of second screen; allows player to undo 3x maximum in their current turn
+		 * winPanel = south of frame; displays current player/winner
 		 */
 		
 		
@@ -76,7 +76,6 @@ public class MancalaTest {
 
 		frame.add(initialScreen, BorderLayout.NORTH);
 		frame.add(secondScreen,BorderLayout.CENTER);
-		model.attach(board);
 		
 		/**
 		 * SECOND SCREEN (BOARD SET-UP)
@@ -127,9 +126,13 @@ public class MancalaTest {
 		secondScreen.add(undoButton, BorderLayout.NORTH);
 		
 		/*
-		 * WINNER SCREEN?
-		 * Display who won the game
+		 * CURRENT TURN AND WINNER
+		 * Display who is playing / who won the game
 		 */
+		WinningPanel winPanel = new WinningPanel(model);
+		model.attach(winPanel);
+		frame.add(winPanel, BorderLayout.SOUTH);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
