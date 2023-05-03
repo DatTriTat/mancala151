@@ -7,11 +7,18 @@ import javax.swing.event.*;
 public class DataModel {
 	private TreeMap<String, Integer> data; 
 	private ArrayList<ChangeListener> listeners;
+	private boolean ongoingGame; //true if the game is currently being played, false if otherwise
 	private boolean turn; //true for p1, false for p2
-	private boolean ongoingGame; 
-	private Deque<TreeMap<String, Integer>> undoStack = new ArrayDeque<TreeMap<String, Integer>>(); //stack that holds previous mappings
-	private Deque<Boolean> turnStack = new ArrayDeque<Boolean>(); 
 	
+	private boolean finalMoveP1; //whether or not it is P1 final move
+	private boolean finalMoveP2; //whether or not it is P2 final move
+	private int numUndoP1; //number of remaining undos for P1
+	private int numUndoP2; //number of remaining undos for P2
+	private boolean undo; //enable undo button
+	
+	private TreeMap<String, Integer> prevMap = new TreeMap<String, Integer>(); //previous data mapping
+	private boolean prevTurn; //previous turn
+ 
 	/**
 	 * Constructs DataModel object.
 	 * @param TreeMap to hold amounts of stones in each pit
@@ -33,6 +40,11 @@ public class DataModel {
 		data.put("B6", 0);
 		data.put("player1", 0);
 		data.put("player2", 0);
+		
+		finalMoveP1 = false;
+		finalMoveP2 = false;
+		numUndoP1 = 0;
+		numUndoP2 = 0;
 	}
 	
 	/**
@@ -97,6 +109,38 @@ public class DataModel {
 	}
 	
 	/**
+	 * Determine if P1 can perform more undos.
+	 * @return boolean value representing if it is P1's final move.
+	 */
+	public boolean isFinalMoveP1() {
+		return finalMoveP1;
+	}
+	
+	/**
+	 * Set whether or not P1 can perform more undos.
+	 * @param t: boolean value representing if it is P1's final move.
+	 */
+	public void setFinalMoveP1(boolean t) {
+		finalMoveP1 = t;
+	}
+	
+	/**
+	 * Determine if P1 can perform more undos.
+	 * @return boolean value representing if it is P2's final move.
+	 */
+	public boolean isFinalMoveP2() {
+		return finalMoveP2;
+	}
+	
+	/**
+	 * Set whether or not P1 can perform more undos.
+	 * @param t: boolean value representing if it is P2's final move.
+	 */
+	public void setFinalMoveP2(boolean t) {
+		finalMoveP2 = t;
+	}
+	
+	/**
 	 * Changes data based on the chosen pit.
 	 * @param LabeledPit chosen by user
 	 */
@@ -119,7 +163,6 @@ public class DataModel {
         }
         
         pushUndo();
-        pushTurn();
 		int amount = data.get(choice); //get amount of pebbles in pit
 		data.put(choice, 0);
 		String curr = pit.getLabel();
@@ -181,15 +224,32 @@ public class DataModel {
 			data.put(curr, 0);
 			data.put("A" + Integer.toString(acrossPit), 0);
 			turn = true;
+			prevTurn = false;
 			return;
 		}
 		else { //change turns
 			if (turn) {
 				turn = false;
+				if (numUndoP1 == 3) {
+					enableUndo(false);
+					setFinalMoveP1(true);
+					numUndoP2 = 0;
+					return;
+				}
+				setFinalMoveP1(false);
+				numUndoP2 = 0;
 				return;
 			}
 			else if (!turn) {
 				turn = true;
+				if (numUndoP2 == 3) {
+					enableUndo(false);
+					setFinalMoveP2(true);
+					numUndoP1 = 0;
+					return;
+				}
+				setFinalMoveP2(false);
+				numUndoP1 = 0;
 				return;
 			}
 		}
@@ -253,59 +313,71 @@ public class DataModel {
 	}
 	
 	/**
-	 * Pushes previous mapping of board into undo stack.
+	 * Set the number of remaining undos for the player who just made a move.
+	 * @param num: number of remaining undos
+	 */
+	public void setNumUndo(int num) {
+		boolean prev = prevTurn;
+		if (prev) {
+			numUndoP1 = num;
+		}
+		else if (!prev) {
+			numUndoP2 = num;
+		}
+	}
+	
+	/**
+	 * Retrieve the number of remaining undos for the player who just made a move.
+	 * @return number of remaining undos
+	 */
+	public int getNumUndo() {
+		boolean prev = prevTurn;
+		if (prev) {
+			return numUndoP1;
+		}
+		else if (!prev) {
+			return numUndoP2;
+		}
+		return -1;
+	}
+	
+	/**
+	 * Saves previous mapping.
 	 */
 	public void pushUndo() {
-		if (undoStack.size() == 3) {
-			undoStack.removeLast();
-		}
-		
 		TreeMap<String, Integer> clone = new TreeMap<String, Integer>();
-		clone.put("A1", data.get("A1"));
-		clone.put("A2", data.get("A2"));
-		clone.put("A3", data.get("A3"));
-		clone.put("A4", data.get("A4"));
-		clone.put("A5", data.get("A5"));
-		clone.put("A6", data.get("A6"));
-		clone.put("B1", data.get("B1"));
-		clone.put("B2", data.get("B2"));
-		clone.put("B3", data.get("B3"));
-		clone.put("B4", data.get("B4"));
-		clone.put("B5", data.get("B5"));
-		clone.put("B6", data.get("B6"));
-		clone.put("player1", data.get("player1"));
-		clone.put("player2", data.get("player2"));
-		undoStack.push(clone);
+		for (Entry<String, Integer> entry: data.entrySet()) {
+			clone.put(entry.getKey(), entry.getValue());
+		}
+		prevMap = clone;
+		prevTurn = turn;
+		enableUndo(true);
 	}
 	
 	/**
 	 * Sets current data to previous board mapping.
 	 */
 	public void popUndo() {
-		TreeMap<String, Integer> board = undoStack.pop();
+		TreeMap<String, Integer> board = prevMap;
 		data = board;
+		turn = prevTurn;
+		enableUndo(false);
 	}
 	
 	/**
-	 * Pushes previous turn into turn stack.
+	 * Enable undo function.
+	 * @param u: whether or not undo should be enabled
 	 */
-	public void pushTurn() {
-		turnStack.push(turn);
+	public void enableUndo(boolean u) {
+		undo = u;
 	}
 	
 	/**
-	 * Sets current turn to previous turn.
+	 * Retrieve if undo function is available.
+	 * @return whether or not undo is enabled
 	 */
-	public void popTurn() {
-		turn = turnStack.pop();
-	}
-	
-	/**
-	 * Retrieves the current amount of undos in the stack.
-	 * @return integer of undos in stack
-	 */
-	public int getNumUndos() {
-		return undoStack.size();
+	public boolean isUndoEnabled() {	
+		return undo;
 	}
 	
 	/**

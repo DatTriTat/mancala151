@@ -6,6 +6,8 @@ package mancala_proj;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
@@ -88,21 +90,48 @@ public class MancalaTest {
 		numStonesPanel.add(field);
 		secondScreen.add(numStonesPanel,BorderLayout.SOUTH);
 		
-		
 		/*
 		 * GAME SCREEN
 		 * Display board with stones and undo button
 		 */
+		JLabel errorText = new JLabel();
+		errorText.setFont(new Font("Arial", Font.PLAIN, 12));
+		errorText.setHorizontalAlignment(JTextField.CENTER);
+		errorText.setForeground(Color.RED);
+		errorText.setVisible(false);
+
+		JLabel remainingUndo = new JLabel();
+		remainingUndo.setFont(new Font("Arial", Font.PLAIN, 12));
+		remainingUndo.setHorizontalAlignment(JTextField.CENTER);
+		remainingUndo.setForeground(Color.BLACK);
+		remainingUndo.setVisible(false);
+		
+		JPanel gameText = new JPanel(new BorderLayout());
+		gameText.add(errorText, BorderLayout.NORTH);
+		gameText.add(remainingUndo, BorderLayout.SOUTH);
+ 
 		JButton undoButton = new JButton("Undo");
 		undoButton.setVisible(false);
-		undoButton.addActionListener(event -> {
-			try {
-				model.popUndo(); //undo 3 times max
-				model.popTurn();
-				model.update();
+		undoButton.addActionListener(event -> {			
+			if (model.getNumUndo() == 3) {
+				if (model.isFinalMoveP1()) {
+					errorText.setText("Player A cannot use more undos. Player B make a move.");
+				}
+				else if (model.isFinalMoveP2()) {
+					errorText.setText("Player B cannot use more undos. Player A make a move.");
+				}
+				errorText.setVisible(true);
 			}
-			catch (Exception e){
-				
+			else if (!model.isUndoEnabled()) {
+				errorText.setText("Please make a move first.");
+				errorText.setVisible(true);
+			}
+			else if (model.isUndoEnabled() && model.getNumUndo() < 3) {
+				model.setNumUndo(model.getNumUndo() + 1);
+				remainingUndo.setText("Remaining Undos: " +  (3 - model.getNumUndo()));
+				model.popUndo();
+				model.update();
+				errorText.setVisible(false);
 			}
 		});
 		
@@ -116,13 +145,19 @@ public class MancalaTest {
 					model.setTurn(true);
 					model.update();
 					numStonesPanel.setVisible(false);
-					undoButton.setVisible(true);
+					
+					undoButton.setVisible(true); //make undo visible after game starts
+					model.enableUndo(false); //need to make move before enabling button
+					remainingUndo.setText("Remaining Undos: 3");
+					remainingUndo.setVisible(true);
+					secondScreen.add(gameText, BorderLayout.SOUTH);
 				}
 			}
 			catch(NumberFormatException ex){
 				
 			}
 		});
+		
 		numStonesPanel.add(startButton, BorderLayout.SOUTH);
 		secondScreen.add(undoButton, BorderLayout.NORTH);
 		
