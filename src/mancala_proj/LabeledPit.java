@@ -5,15 +5,10 @@ package mancala_proj;
  * @author pebbles
  */
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
+import javax.swing.*;
 
 /**
  * A labeled pit, consisting of a label and a Mancala pit.

@@ -1,8 +1,10 @@
 package mancala_proj;
+
 /**
  * This class defines the dark mode style of the Mancala board
  * @author pebbles
  */
+
 import java.awt.Color;
 
 /*

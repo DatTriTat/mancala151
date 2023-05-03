@@ -5,21 +5,12 @@ package mancala_proj;
  * @author pebbles
  */
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 /**
  * This class represents a pit, which can contain stones.
  */
