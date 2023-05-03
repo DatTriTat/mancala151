@@ -10,6 +10,7 @@ public class DataModel {
 	private boolean turn; //true for p1, false for p2
 	private boolean ongoingGame; 
 	private Deque<TreeMap<String, Integer>> undoStack = new ArrayDeque<TreeMap<String, Integer>>(); //stack that holds previous mappings
+	private Deque<Boolean> turnStack = new ArrayDeque<Boolean>(); 
 	
 	/**
 	 * Constructs DataModel object.
@@ -113,6 +114,12 @@ public class DataModel {
             return;
         }
         
+        if (pit.isEmpty()) {
+        	return;
+        }
+        
+        pushUndo();
+        pushTurn();
 		int amount = data.get(choice); //get amount of pebbles in pit
 		data.put(choice, 0);
 		String curr = pit.getLabel();
@@ -250,7 +257,7 @@ public class DataModel {
 	 */
 	public void pushUndo() {
 		if (undoStack.size() == 3) {
-			undoStack.remove();
+			undoStack.removeLast();
 		}
 		
 		TreeMap<String, Integer> clone = new TreeMap<String, Integer>();
@@ -277,7 +284,28 @@ public class DataModel {
 	public void popUndo() {
 		TreeMap<String, Integer> board = undoStack.pop();
 		data = board;
-		turn = !turn;
+	}
+	
+	/**
+	 * Pushes previous turn into turn stack.
+	 */
+	public void pushTurn() {
+		turnStack.push(turn);
+	}
+	
+	/**
+	 * Sets current turn to previous turn.
+	 */
+	public void popTurn() {
+		turn = turnStack.pop();
+	}
+	
+	/**
+	 * Retrieves the current amount of undos in the stack.
+	 * @return integer of undos in stack
+	 */
+	public int getNumUndos() {
+		return undoStack.size();
 	}
 	
 	/**
@@ -289,8 +317,7 @@ public class DataModel {
 	}
 	
 	/**
-	 * Changes date for all listeners of model.
-	 * @param d: date to be changed to
+	 * Changes data for all listeners of model.
 	 */
 	public void update() {
 		for (ChangeListener l : listeners) {

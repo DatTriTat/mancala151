@@ -29,14 +29,6 @@ public class MancalaPit extends JPanel{
 		setPreferredSize(new Dimension(PIT_WIDTH, PIT_HEIGHT));
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
-
-	/**
-	 * Returns the list the stones.
-	 * @return the list of stones
-	 */
-	public ArrayList<StoneShape> getStones(){
-		return stones;
-	}
 	
 	/**
 	 * Returns the amount of stones in the mancala.
