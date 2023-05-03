@@ -1,5 +1,10 @@
 package mancala_proj;
 
+/**
+ * This program tests the Mancala game
+ * @author pebbles
+ */
+
 import java.awt.BorderLayout;
 import java.util.TreeMap;
 
@@ -8,11 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-/**
- * This program tests the Mancala game
- * @author pebbles
- */
 
 /**
  * 
