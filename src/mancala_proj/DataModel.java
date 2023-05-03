@@ -13,7 +13,7 @@ public class DataModel {
 	
 	/**
 	 * Constructs DataModel object.
-	 * @param d
+	 * @param TreeMap to hold amounts of stones in each pit
 	 */
 	public DataModel(TreeMap<String, Integer> d) {
 		data = d;
@@ -35,15 +35,16 @@ public class DataModel {
 	}
 	
 	/**
-	 * Returns the data structure
-	 * @return the data structure
+	 * Retrieves current data of board.
+	 * @return TreeMap of current data
 	 */
 	public TreeMap<String, Integer> getData(){
 		return data;
 	}
 	
-	/*
-	 * Sets amount in each pit to 3 or 4 pebbles.
+	/**
+	 * Sets starting amount of stones in each pit based on user input.
+	 * @param integer of stones to put in each pit
 	 */
 	public void setData(int num) {
 		if (num == 3) {
@@ -62,36 +63,41 @@ public class DataModel {
 		}
 	}
 	
-	/*
-	 * Set whether or not the game is currently playing.
+	/**
+	 * Set whether or not the game is currently running.
+	 * @param boolean value that represents game status (true for running, false for not running)
 	 */
 	public void setGame(boolean g) {
 		ongoingGame = g;
 	}
 	
-	/*
-	 * Get if a game is currently playing.
+	/**
+	 * Get whether or not the game is currently running.
+	 * @return boolean value that represents game status (true for running, false for not running)
 	 */
 	public boolean getGame() {
 		return ongoingGame;
 	}
 	
-	/*
-	 * Set who's turn it is.
+	/**
+	 * Set which player's turn it is.
+	 * @param boolean value representing player turn (true for P1, false for P2).
 	 */
 	public void setTurn(boolean t) {
 		turn = t;
 	}
 	
-	/*
-	 * Get who's turn it is.
+	/**
+	 * Retrieve which player's turn it is.
+	 * @return boolean value representing player turn (true for P1, false for P2).
 	 */
 	public boolean getTurn() {
 		return turn;
 	}
 	
-	/*
-	 * Changes data based on pit chosen and who's turn it is.
+	/**
+	 * Changes data based on the chosen pit.
+	 * @param LabeledPit chosen by user
 	 */
 	public void changeData(LabeledPit pit) {
 		if (totalP1() == 0 || totalP2() == 0) {
@@ -182,6 +188,9 @@ public class DataModel {
 		}
 	}
 	
+	/**
+	 * Ends the game when one side is empty. Places all remaining stones in correct mancala.
+	 */
 	public void endGame() {
 		ongoingGame = false;
 		if (totalP1() == 0) { //check if p1 has run out of pieces on their side
@@ -192,7 +201,6 @@ public class DataModel {
 			data.put("B4", 0);
 			data.put("B5", 0);
 			data.put("B6", 0);
-			return;
         }
 		else if (totalP2() == 0) { //check if p2 has run out of pieces on their side
 			data.put("player1", data.get("player1") + totalP1());
@@ -202,42 +210,44 @@ public class DataModel {
 			data.put("A4", 0);
 			data.put("A5", 0);
 			data.put("A6", 0);
-			return;
         }
 	}
 	
 	/**
-	 * Returns the number of stones player 1 has on their side of the board.
-	 * @return the number of stones player 1 has on their side of the board.
+	 * Retrieves the total amount of stones on player 1's side.
+	 * @return integer amount of stones on player 1's side
 	 */
 	public int totalP1() {
 		return data.get("A1") + data.get("A2") + data.get("A3") + data.get("A4") + data.get("A5") + data.get("A6");
 	}
 	
 	/**
-	 * Returns the number of stones player 2 has on their side of the board.
-	 * @return the number of stones player 2 has on their side of the board.
+	 * Retrieves the total amount of stones on player 2's side.
+	 * @return integer amount of stones on player 2's side
 	 */
 	public int totalP2() {
 		return data.get("B1") + data.get("B2") + data.get("B3") + data.get("B4") + data.get("B5") + data.get("B6");
 	}
 	
 	/**
-	 * Returns the number of stones player 1 has in their mancala.
-	 * @return the number of stones player 1 has in their mancala
+	 * Retrieves the total amount of stones in player 1's mancala.
+	 * @return integer amount of stones in player 1's mancala
 	 */
 	public int getPlayer1() {
 		return data.get("player1");
 	}
 	
 	/**
-	 * Returns the number of stones player 2 has in their mancala.
-	 * @return the number of stones player 2 has in their mancala
+	 * Retrieves the total amount of stones in player 2's mancala.
+	 * @return integer amount of stones in player 2's mancala
 	 */
 	public int getPlayer2() {
 		return data.get("player2");
 	}
 	
+	/**
+	 * Pushes previous mapping of board into undo stack.
+	 */
 	public void pushUndo() {
 		if (undoStack.size() == 3) {
 			undoStack.remove();
@@ -261,17 +271,27 @@ public class DataModel {
 		undoStack.push(clone);
 	}
 	
+	/**
+	 * Sets current data to previous board mapping.
+	 */
 	public void popUndo() {
 		TreeMap<String, Integer> board = undoStack.pop();
 		data = board;
 		turn = !turn;
-		
 	}
 	
+	/**
+	 * Attach listener to model.
+	 * @param c: listener to be attached
+	 */
 	public void attach(ChangeListener c) {
 	      listeners.add(c);
 	}
 	
+	/**
+	 * Changes date for all listeners of model.
+	 * @param d: date to be changed to
+	 */
 	public void update() {
 		for (ChangeListener l : listeners) {
 			l.stateChanged(new ChangeEvent(this));
