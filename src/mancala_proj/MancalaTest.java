@@ -130,9 +130,9 @@ public class MancalaTest {
 		 * CURRENT TURN AND WINNER
 		 * Display who is playing / who won the game
 		 */
-		WinningPanel winPanel = new WinningPanel(model);
-		model.attach(winPanel);
-		frame.add(winPanel, BorderLayout.SOUTH);
+		StatePanel statePanel = new StatePanel(model);
+		model.attach(statePanel);
+		frame.add(statePanel, BorderLayout.SOUTH);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
