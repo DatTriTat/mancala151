@@ -1,16 +1,25 @@
 package mancala_proj;
-
+/**
+ * The program displays the current player or the winner of the game.
+ * @author pebbles
+ */
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
+/**
+ * The panel that contains a label that displays the current player or the winner.
+ */
 public class WinningPanel extends JPanel implements ChangeListener{
 	private DataModel model;
 	private boolean isP1Turn;
 	private JLabel label;
 	
+	/**
+	 * Constructs panel, which consists of a label.
+	 * @param model the model that manages the data and the views
+	 */
     public WinningPanel(DataModel model) {
     	this.model = model;
     	isP1Turn = model.getTurn();
@@ -21,11 +30,15 @@ public class WinningPanel extends JPanel implements ChangeListener{
         add(label);
     }
     
+    /**
+     * Changes the label to the appropriate text.
+     * @param g graphics tool
+     */
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if(model.totalP1() == 0 && model.totalP2() == 0 && model.getPlayer1() == 0 && model.getPlayer2() == 0) { //empty board
-        	label.setText("");
+        	return;
         }
         else if(model.totalP1() == 0 || model.totalP2() == 0) {
 			model.endGame();
@@ -48,9 +61,17 @@ public class WinningPanel extends JPanel implements ChangeListener{
     		}
     	}
     }
+    
+    /**
+     * Changes the state of this board according to the model.
+     * @param e the change event
+     */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		isP1Turn = model.getTurn();
+		if(model.totalP1() == 0 || model.totalP2() == 0) {
+			model.endGame();
+		}
 		repaint();
 	}
 }
