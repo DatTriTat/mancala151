@@ -45,9 +45,9 @@ public class Pit extends JPanel implements ChangeListener{
 		label = letterNum;
 		stones = new ArrayList<>();
 		setPreferredSize(new Dimension(PIT_WIDTH, PIT_WIDTH));
-		MouseListeners listeners = new MouseListeners();
-		addMouseListener(listeners);
-		addMouseMotionListener(listeners);
+		//MouseListeners listeners = new MouseListeners();
+		//addMouseListener(listeners);
+		//addMouseMotionListener(listeners);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
@@ -116,19 +116,19 @@ public class Pit extends JPanel implements ChangeListener{
 	/**
 	 * This class implements MouseListener and MouseMotionListener.
 	 */
-	private class MouseListeners extends MouseAdapter{
+	//private class MouseListeners extends MouseAdapter{
 		/**
 		 * Executes a player's turn from this pit.
 		 * @param event the event
 		 */
-		public void mousePressed(MouseEvent event) {
+		/**public void mousePressed(MouseEvent event) {
 			if(stones.size() >= 0) {
 				//update model
 				addStone();//testing
 			}
 			
 		}
-	}
+	} */
 
 	/**
 	 * Changes the state of this pit according to the model.
