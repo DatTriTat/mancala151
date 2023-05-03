@@ -1,15 +1,11 @@
 package mancala_proj;
 /**
- * This program implements the initial screen of the Mancala game.
+ *This program implements the initial screen of the Mancala game.
  * @author pebbles
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  * Implements the initial screen that allows the user to pick the desired style of the Mancala board.

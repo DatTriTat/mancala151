@@ -6,11 +6,9 @@ package mancala_proj;
  */
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * This class implements the Mancala board, which consists of labeled pits and Mancala pits.

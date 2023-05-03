@@ -1,17 +1,20 @@
 package mancala_proj;
 
 import java.util.*;
-import java.util.Map.Entry;
+import java.util.Map.*;
 import javax.swing.event.*;
 
 public class DataModel {
-
-	private TreeMap<String, Integer> data;
+	private TreeMap<String, Integer> data; 
 	private ArrayList<ChangeListener> listeners;
 	private boolean turn; //true for p1, false for p2
-	private boolean ongoingGame;
-	private Deque<TreeMap<String, Integer>> undoStack = new ArrayDeque<TreeMap<String, Integer>>();
+	private boolean ongoingGame; 
+	private Deque<TreeMap<String, Integer>> undoStack = new ArrayDeque<TreeMap<String, Integer>>(); //stack that holds previous mappings
 	
+	/**
+	 * Constructs DataModel object.
+	 * @param d
+	 */
 	public DataModel(TreeMap<String, Integer> d) {
 		data = d;
 		listeners = new ArrayList<ChangeListener>();
@@ -261,6 +264,8 @@ public class DataModel {
 	public void popUndo() {
 		TreeMap<String, Integer> board = undoStack.pop();
 		data = board;
+		turn = !turn;
+		
 	}
 	
 	public void attach(ChangeListener c) {

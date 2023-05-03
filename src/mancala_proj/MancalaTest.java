@@ -1,13 +1,8 @@
 package mancala_proj;
 
-import java.awt.BorderLayout;
-import java.util.TreeMap;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import java.util.*;
+import javax.swing.*;
 
 /**
  * This program tests the Mancala game
