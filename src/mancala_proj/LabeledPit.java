@@ -73,6 +73,17 @@ public class LabeledPit extends JPanel implements MouseListener {
 	}
 	
 	/**
+	 * Returns if the pit is empty.
+	 * @return boolean value to represent if pit is empty
+	 */
+	public boolean isEmpty() {
+		if (pit.getStones().size() == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Returns the content of the label.
 	 * @return the content of the label
 	 */
@@ -106,20 +117,18 @@ public class LabeledPit extends JPanel implements MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {}
-
-	@Override
 	public void mousePressed(MouseEvent e) {
 		if(model.getGame()) {
 			Point2D point = new Point2D.Double(e.getX(), e.getY());
 			if (pit.contains(point)) {
-				model.pushUndo();
 				model.changeData(this);
 				model.update();
 			}
 		}
 	}
 	
+	@Override
+	public void mouseClicked(MouseEvent e) {}
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 	@Override

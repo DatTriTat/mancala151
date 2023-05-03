@@ -14,9 +14,13 @@ public class WinningPanel extends JPanel {
             initialPanel.setVisible(false);
             setVisible(true); // hides the panel
             if (model.getPlayer1() > model.getPlayer2()) {
-                winningLabel.setText("Player A is winning!");
-            } else {
-                winningLabel.setText("Player B is winning!");
+                winningLabel.setText("Player A won!");
+            } 
+            else if (model.getPlayer1() < model.getPlayer2()) {
+                winningLabel.setText("Player B won!");
+            }
+            else {
+            	winningLabel.setText("It's a draw!");
             }
             add(winningLabel);
         }

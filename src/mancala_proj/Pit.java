@@ -14,7 +14,7 @@ import javax.swing.event.*;
 /**
  * This class represents a pit, which can contain stones.
  */
-public class Pit extends JPanel implements ChangeListener{
+public class Pit extends JPanel{
 	public static final int PIT_WIDTH = 100;
 	public static final Color STONE_COLOR = Color.GRAY;
 	
@@ -36,9 +36,6 @@ public class Pit extends JPanel implements ChangeListener{
 		label = letterNum;
 		stones = new ArrayList<>();
 		setPreferredSize(new Dimension(PIT_WIDTH, PIT_WIDTH));
-		//MouseListeners listeners = new MouseListeners();
-		//addMouseListener(listeners);
-		//addMouseMotionListener(listeners);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
@@ -103,32 +100,4 @@ public class Pit extends JPanel implements ChangeListener{
 		}
 		return false;
 	}
-	
-	/**
-	 * This class implements MouseListener and MouseMotionListener.
-	 */
-	//private class MouseListeners extends MouseAdapter{
-		/**
-		 * Executes a player's turn from this pit.
-		 * @param event the event
-		 */
-		/**public void mousePressed(MouseEvent event) {
-			if(stones.size() >= 0) {
-				//update model
-				addStone();//testing
-			}
-			
-		}
-	} */
-
-	/**
-	 * Changes the state of this pit according to the model.
-	 * @param e the change event
-	 */
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
-		//update model
-	}
-
 }
