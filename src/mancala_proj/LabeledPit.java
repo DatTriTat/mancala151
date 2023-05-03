@@ -46,7 +46,7 @@ public class LabeledPit extends JPanel {
 			add(label, BorderLayout.SOUTH);
 		pit = new Pit(letterNum);
 		
-		Listeners listeners = new Listeners();
+		MouseListeners listeners = new MouseListeners();
 		addMouseListener(listeners);
 		addMouseMotionListener(listeners);
 		add(pit, BorderLayout.CENTER);
@@ -118,7 +118,14 @@ public class LabeledPit extends JPanel {
 		label.setBackground(style.getBoardColor());
 	}
 
-	public class Listeners extends MouseAdapter {
+	/**
+	 * Implements Listeners for Mouse related events
+	 */
+	public class MouseListeners extends MouseAdapter {
+		/**
+		 * Updates the data and change listeners of the model if the mouse is pressed in the pit of this labeled pit.
+		 * @param e the Mouse event
+		 */
 		public void mousePressed(MouseEvent e) {
 			if(model.getGame()) {
 				Point2D point = new Point2D.Double(e.getX(), e.getY());
