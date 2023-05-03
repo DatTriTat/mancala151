@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * A labeled pit, consisting of a label and a Mancala pit.
  */
-public class LabeledPit extends JPanel implements MouseListener {	
+public class LabeledPit extends JPanel {	
 	private DataModel model;
 	private String letNum;
 	private Pit pit;
@@ -46,7 +46,9 @@ public class LabeledPit extends JPanel implements MouseListener {
 			add(label, BorderLayout.SOUTH);
 		pit = new Pit(letterNum);
 		
-		addMouseListener(this);
+		Listeners listeners = new Listeners();
+		addMouseListener(listeners);
+		addMouseMotionListener(listeners);
 		add(pit, BorderLayout.CENTER);
 	}
 	
@@ -116,23 +118,16 @@ public class LabeledPit extends JPanel implements MouseListener {
 		label.setBackground(style.getBoardColor());
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if(model.getGame()) {
-			Point2D point = new Point2D.Double(e.getX(), e.getY());
-			if (pit.contains(point)) {
-				model.changeData(this);
-				model.update();
+	public class Listeners extends MouseAdapter {
+		public void mousePressed(MouseEvent e) {
+			if(model.getGame()) {
+				Point2D point = new Point2D.Double(e.getX(), e.getY());
+				if (pit.contains(point)) {
+					model.changeData(LabeledPit.this);
+					model.update();
+				}
 			}
 		}
 	}
 	
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	@Override
-	public void mouseExited(MouseEvent e) {}
 }
