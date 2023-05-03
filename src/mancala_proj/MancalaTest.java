@@ -98,6 +98,7 @@ public class MancalaTest {
 		undoButton.addActionListener(event -> {
 			try {
 				model.popUndo(); //undo 3 times max
+				model.popTurn();
 				model.update();
 			}
 			catch (Exception e){
