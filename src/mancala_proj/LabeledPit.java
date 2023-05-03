@@ -121,7 +121,7 @@ public class LabeledPit extends JPanel {
 	/**
 	 * Implements Listeners for Mouse related events
 	 */
-	public class MouseListeners extends MouseAdapter {
+	private class MouseListeners extends MouseAdapter {
 		/**
 		 * Updates the data and change listeners of the model if the mouse is pressed in the pit of this labeled pit.
 		 * @param e the Mouse event
