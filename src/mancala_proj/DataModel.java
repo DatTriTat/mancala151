@@ -329,9 +329,11 @@ public class DataModel {
 		boolean prev = prevTurn;
 		if (prev) {
 			numUndoP1 = num;
+			numUndoP2 = 0;
 		}
 		else if (!prev) {
 			numUndoP2 = num;
+			numUndoP1 = 0;
 		}
 	}
 	

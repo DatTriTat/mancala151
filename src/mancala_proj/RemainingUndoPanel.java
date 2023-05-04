@@ -32,18 +32,35 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 		
 		JButton undoButton = new JButton("Undo");
 		undoButton.addActionListener(event -> {	
-			
 			if (model.getNumUndo() == 3) {
-				if (model.isFinalMoveP1()) { //A used all undos
-					setErrorText("Player A cannot use more undos. Player B make a move.");
-					setP1Text("[ A : - ]");
-					setP2Text("[ B : 3 ]");
+				
+				if (model.getP1NumUndo() == 3) { //A used all undos
+					if(!model.getTurn()) { //B's turn
+						setErrorText("Player A cannot use more undos. Player B make a move.");
+						setP1Text("[ A : - ]");
+						setP2Text("[ B : 3 ]");
+					}
+					//when Player A last move (couldn't undo) gives them a free turn
+					else { //A's turn
+						setErrorText("Player A cannot use more undos. Player A make a move.");
+						setP1Text("[ A : 0 ]");
+						setP2Text("[ B : - ]");
+					}
+					
 					setErrorVisible(true);
 				}
-				else if (model.isFinalMoveP2()) { //B used all undos
-					setErrorText("Player B cannot use more undos. Player A make a move.");
-					setP1Text("[ A : 3 ]");
-					setP2Text("[ B : - ]");
+				else if (model.getP2NumUndo() == 3) { //B used all undos
+					if(model.getTurn()) { //A's turn
+						setErrorText("Player B cannot use more undos. Player A make a move.");
+						setP1Text("[ A : 3 ]");
+						setP2Text("[ B : - ]");
+					}
+					//when Player B last move (couldn't undo) gives them a free turn
+					else { //B's turn
+						setErrorText("Player B cannot use more undos. Player B make a move.");
+						setP1Text("[ A : - ]");
+						setP2Text("[ B : 0 ]");
+					}
 					setErrorVisible(true);
 				}
 				
@@ -126,34 +143,38 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D) g;
-	    //turn just changed (prev player may or may not be able to undo)
-	    if(isP1Turn != prevIsP1 && !errorText.isVisible()) { 
-	    	//can't undo (ex. undo before starting game)
-	    	if (!model.isUndoEnabled()) {
-				setErrorText("Please make a move first.");
-				setErrorVisible(true);
-			}	
-		    //prev player B has no more undoes
-	    	else if(isP1Turn && model.getP2NumUndo() == 3) {
-				p1Label.setText("[ A : 3 ]");
-				p2Label.setText("[ B : - ]");
-			}
-			//prev player B can undo
-			else if(isP1Turn) {
-				p1Label.setText("[ A : 3 ]");
-				p2Label.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
-			}
-			//prev player A has no more undos
-			else if(!isP1Turn && model.getP1NumUndo() == 3) {
-				p1Label.setText("[ A : - ]");
-				p2Label.setText("[ B : 3 ]");
-			}
-			//prev player A can undo
-			else if(isP1Turn) {
-				p1Label.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-				p2Label.setText("[ B : 3 ]");
-			}
-	    }
+//	    //turn just changed (prev player may or may not be able to undo)
+//	    if(isP1Turn != prevIsP1 && !errorText.isVisible()) { 
+//	    	//can't undo 
+//	    	if (!model.isUndoEnabled()) {
+//	    		//prev player B has no more undoes
+//		    	if(isP1Turn && model.getP2NumUndo() == 3) {
+//					p1Label.setText("[ A : 3 ]");
+//					p2Label.setText("[ B : - ]");
+//				}
+//		    	//prev player A has no more undos
+//				else if(!isP1Turn && model.getP1NumUndo() == 3) {
+//					p1Label.setText("[ A : - ]");
+//					p2Label.setText("[ B : 3 ]");
+//				}
+//		    	// (e.g. undo before starting game)
+//				else {
+//					setErrorText("Please make a move first.");
+//					setErrorVisible(true);
+//				}
+//				
+//			}	
+//			//prev player B can undo
+//			else if(isP1Turn) {
+//				p1Label.setText("[ A : 3 ]");
+//				p2Label.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+//			}
+//			//prev player A can undo
+//			else if(!isP1Turn) {
+//				p1Label.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+//				p2Label.setText("[ B : 3 ]");
+//			}
+//	    }
 	}
 	
 	/**
@@ -196,7 +217,39 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 	public void stateChanged(ChangeEvent e) { //should be called when a pit is pressed
 		isP1Turn = model.getTurn();
 		prevIsP1 = model.prevIsP1();
-		setErrorVisible(false);
-		repaint();
+//		repaint();
+		//turn just changed (prev player may or may not be able to undo)
+	    if(isP1Turn != prevIsP1) { 
+	    	//can't undo 
+	    	if (!model.isUndoEnabled()) {
+	    		//prev player B has no more undoes
+		    	if(isP1Turn && model.getP2NumUndo() == 3) {
+					p1Label.setText("[ A : 3 ]");
+					p2Label.setText("[ B : - ]");
+				}
+		    	//prev player A has no more undos
+				else if(!isP1Turn && model.getP1NumUndo() == 3) {
+					p1Label.setText("[ A : - ]");
+					p2Label.setText("[ B : 3 ]");
+				}
+		    	// (e.g. undo before starting game)
+				else {
+					setErrorText("Please make a move first.");
+					setErrorVisible(true);
+				}
+				
+			}	
+			//prev player B can undo
+			else if(isP1Turn) {
+				p1Label.setText("[ A : 3 ]");
+				p2Label.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+			}
+			//prev player A can undo
+			else if(!isP1Turn) {
+				p1Label.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+				p2Label.setText("[ B : 3 ]");
+			}
+	    }
+	    setErrorVisible(false);
 	}
 }
