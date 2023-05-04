@@ -8,7 +8,7 @@ public class DataModel {
 	private TreeMap<String, Integer> data; 
 	private ArrayList<ChangeListener> listeners;
 	private boolean ongoingGame; //true if the game is currently being played, false if otherwise
-	private boolean turn; //true for p1, false for p2
+	private boolean p1Turn; //true for p1, false for p2
 	
 	private boolean finalMoveP1; //whether or not it is P1 final move
 	private boolean finalMoveP2; //whether or not it is P2 final move
@@ -97,7 +97,14 @@ public class DataModel {
 	 * @param boolean value representing player turn (true for P1, false for P2).
 	 */
 	public void setTurn(boolean t) {
-		turn = t;
+		p1Turn = t;
+	}
+	
+	public String getCurrentPlayer() {
+		if(getTurn()) {
+			return "A";
+		}
+		return "B";
 	}
 	
 	/**
@@ -105,7 +112,7 @@ public class DataModel {
 	 * @return boolean value representing player turn (true for P1, false for P2).
 	 */
 	public boolean getTurn() {
-		return turn;
+		return p1Turn;
 	}
 	
 	/**
@@ -169,36 +176,36 @@ public class DataModel {
 		while (amount > 0) {
 			if (String.valueOf(curr.charAt(0)).equals("A")) { //next pit to place pebble in if on top side
 				curr = curr.charAt(0) + Integer.toString(Character.getNumericValue(curr.charAt(1)) - 1);
-				if (curr.equals("A0") && turn) { //if next pit is p1 mancala and it is p1's turn increase p1 score
+				if (curr.equals("A0") && p1Turn) { //if next pit is p1 mancala and it is p1's turn increase p1 score
 					data.put("player1", data.get("player1") + 1);
 					amount--;
 					if (amount == 0) { //if p1 final pebble lands in p1 mancala --> receive another turn
-						turn = true;
+						p1Turn = true;
 						return;
 					}
 					else if (amount != 0) { //if there are still remaining pebbles during p1's turn, go to p2 pits
 						curr = "B1";
 					}
 				}
-				else if (curr.equals("A0") && !turn) { //if next pit is p1 mancala and it is p2's turn skip mancala and continue
+				else if (curr.equals("A0") && !p1Turn) { //if next pit is p1 mancala and it is p2's turn skip mancala and continue
 					curr = "B1";
 				}
 			}
 			
 			else if (String.valueOf(curr.charAt(0)).equals("B")) { //next pit to place pebble in if on bottom side
 				curr = curr.charAt(0) + Integer.toString(Character.getNumericValue(curr.charAt(1)) + 1);
-				if (curr.equals("B7") && !turn) { //if next pit is p2 mancala and it is p2's turn increase p2 score
+				if (curr.equals("B7") && !p1Turn) { //if next pit is p2 mancala and it is p2's turn increase p2 score
 					data.put("player2", data.get("player2") + 1);
 					amount--;
 					if (amount == 0) { //if p2 final pebble lands in p2 mancala --> receive another turn
-						turn = false;
+						p1Turn = false;
 						return;
 					}
 					else if (amount != 0) { //if there are still remaining pebbles during p2's turn, go to p1 pits
 						curr = "A6";
 					}
 				}
-				else if (curr.equals("B7") && turn) { //if next pit is p2 mancala and it is p1's turn skip mancala and continue
+				else if (curr.equals("B7") && p1Turn) { //if next pit is p2 mancala and it is p1's turn skip mancala and continue
 					curr = "A6";
 				}
 			}
@@ -211,25 +218,25 @@ public class DataModel {
 		
 		//CAPTURE:
 		//if p1 turn && p1 lands in their own pit && their pit is empty (except for just placed pebble) && pit across board contains pebbles
-		if (turn && curr.charAt(0) == ("A").charAt(0) && data.get(curr) == 1 && data.get("B" + Integer.toString(acrossPit)) != 0) {
+		if (p1Turn && curr.charAt(0) == ("A").charAt(0) && data.get(curr) == 1 && data.get("B" + Integer.toString(acrossPit)) != 0) {
 			data.put("player1", data.get("player1") + data.get(curr) + data.get("B" + Integer.toString(acrossPit)));
 			data.put(curr, 0);
 			data.put("B" + Integer.toString(acrossPit), 0);
-			turn = false;
+			p1Turn = false;
 			return;
 		}
 		//if p2 turn && p2 lands in their own pit && their pit is empty (except for just placed pebble) && pit across board contains pebbles
-		else if (!turn && curr.charAt(0) == ("B").charAt(0) && data.get(curr) == 1 && data.get("A" + Integer.toString(acrossPit)) != 0) {
+		else if (!p1Turn && curr.charAt(0) == ("B").charAt(0) && data.get(curr) == 1 && data.get("A" + Integer.toString(acrossPit)) != 0) {
 			data.put("player2", data.get("player2") + data.get(curr) + data.get("A" + Integer.toString(acrossPit)));
 			data.put(curr, 0);
 			data.put("A" + Integer.toString(acrossPit), 0);
-			turn = true;
+			p1Turn = true;
 			prevTurn = false;
 			return;
 		}
 		else { //change turns
-			if (turn) {
-				turn = false;
+			if (p1Turn) {
+				p1Turn = false;
 				if (numUndoP1 == 3) {
 					enableUndo(false);
 					setFinalMoveP1(true);
@@ -240,8 +247,8 @@ public class DataModel {
 				numUndoP2 = 0;
 				return;
 			}
-			else if (!turn) {
-				turn = true;
+			else if (!p1Turn) {
+				p1Turn = true;
 				if (numUndoP2 == 3) {
 					enableUndo(false);
 					setFinalMoveP2(true);
@@ -342,6 +349,26 @@ public class DataModel {
 	}
 	
 	/**
+	 * Returns number of remaining undos for Player 1
+	 * @return number of remaining undos for Player 1
+	 */
+	public int getP1NumUndo() {
+		return numUndoP1;
+	}
+	
+	/**
+	 * Returns number of remaining undos for Player 2
+	 * @return number of remainging undos for Player 2;
+	 */
+	public int getP2NumUndo() {
+		return numUndoP2;
+	}
+	
+	public boolean prevIsP1() {
+		return prevTurn;
+	}
+	
+	/**
 	 * Saves previous mapping.
 	 */
 	public void pushUndo() {
@@ -350,7 +377,7 @@ public class DataModel {
 			clone.put(entry.getKey(), entry.getValue());
 		}
 		prevMap = clone;
-		prevTurn = turn;
+		prevTurn = p1Turn;
 		enableUndo(true);
 	}
 	
@@ -360,7 +387,7 @@ public class DataModel {
 	public void popUndo() {
 		TreeMap<String, Integer> board = prevMap;
 		data = board;
-		turn = prevTurn;
+		p1Turn = prevTurn;
 		enableUndo(false);
 	}
 	
