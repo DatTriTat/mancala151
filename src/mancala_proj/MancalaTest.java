@@ -94,35 +94,19 @@ public class MancalaTest {
 		 * GAME SCREEN
 		 * Display board with stones and undo button
 		 */
-		JLabel errorText = new JLabel();
-		errorText.setFont(new Font("Arial", Font.PLAIN, 12));
-		errorText.setHorizontalAlignment(JTextField.CENTER);
-		errorText.setForeground(Color.RED);
-		errorText.setVisible(false);
-		
-		JLabel remainingUndo = new JLabel("Remaining Undos: ");
-		remainingUndo.setFont(new Font("Arial", Font.PLAIN, 12));
-		remainingUndo.setHorizontalAlignment(JTextField.CENTER);
-		remainingUndo.setForeground(Color.BLACK);
-		
-		JLabel remainingUndo1 = new JLabel("[ A : 3 ]");
-		remainingUndo1.setFont(new Font("Arial", Font.PLAIN, 12));
-		remainingUndo1.setHorizontalAlignment(JTextField.CENTER);
-		remainingUndo1.setForeground(Color.BLACK);
-		
-		JLabel remainingUndo2 = new JLabel("[ B : - ]");
-		remainingUndo2.setFont(new Font("Arial", Font.PLAIN, 12));
-		remainingUndo2.setHorizontalAlignment(JTextField.CENTER);
-		remainingUndo2.setForeground(Color.BLACK);
-		
-		JPanel remainingUndos = new JPanel();
-		remainingUndos.add(remainingUndo);
-		remainingUndos.add(remainingUndo1);
-		remainingUndos.add(remainingUndo2);
-		
-		JPanel gameText = new JPanel(new BorderLayout());
-		gameText.add(errorText, BorderLayout.NORTH);
-		gameText.add(remainingUndos, BorderLayout.SOUTH);
+//		JLabel errorText = new JLabel();
+//		errorText.setFont(new Font("Arial", Font.PLAIN, 12));
+//		errorText.setHorizontalAlignment(JTextField.CENTER);
+//		errorText.setForeground(Color.RED);
+//		errorText.setVisible(false);
+//		
+		RemainingUndoPanel gameText = new RemainingUndoPanel(model);
+		model.attach(gameText);
+//		
+//		
+//		JPanel gameText = new JPanel(new BorderLayout());
+//		gameText.add(errorText, BorderLayout.NORTH);
+//		gameText.add(remainingUndos, BorderLayout.SOUTH);
  
 		JButton undoButton = new JButton("Undo");
 		undoButton.setVisible(false);
@@ -130,52 +114,53 @@ public class MancalaTest {
 			
 			if (model.getNumUndo() == 3) {
 				if (model.isFinalMoveP1()) { //A used all undos
-					errorText.setText("Player A cannot use more undos. Player B make a move.");
-					remainingUndo1.setText("[ A : - ]");
-					remainingUndo2.setText("[ B : 3 ]");
-					errorText.setVisible(true);
+					gameText.setErrorText("Player A cannot use more undos. Player B make a move.");
+					gameText.setP1Text("[ A : - ]");
+					gameText.setP2Text("[ B : 3 ]");
+					gameText.setErrorVisible(true);
 				}
 				else if (model.isFinalMoveP2()) { //B used all undos
-					errorText.setText("Player B cannot use more undos. Player A make a move.");
-					remainingUndo1.setText("[ A : 3 ]");
-					remainingUndo2.setText("[ B : - ]");
-					errorText.setVisible(true);
+					gameText.setErrorText("Player B cannot use more undos. Player A make a move.");
+					gameText.setP1Text("[ A : 3 ]");
+					gameText.setP2Text("[ B : - ]");
+					gameText.setErrorVisible(true);
 				}
 				
 			}
 			else if (!model.isUndoEnabled()) { //can't undo
-				errorText.setText("Please make a move first.");
-				errorText.setVisible(true);
+				gameText.setErrorText("Please make a move first.");
+				gameText.setErrorVisible(true);
 			}	
-			else if (model.getNumUndo() < 3) { //last player still has undo left, used at least one
+			else if (model.getNumUndo() < 3) { //last player still has undo(es) left
 				model.setNumUndo(model.getNumUndo() + 1);
 				//B's turn and A undoes
 				if(!model.getTurn() && model.prevIsP1()) { 
-					remainingUndo1.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-					remainingUndo2.setText("[ B : - ]");
+					gameText.setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+					gameText.setP2Text("[ B : - ]");
 				}
 				//A's turn and A undoes
 				else if(model.getTurn() && model.prevIsP1()) {
-					remainingUndo1.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-					remainingUndo2.setText("[ B : - ]");
+					gameText.setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+					gameText.setP2Text("[ B : - ]");
 				}
 				//A's turn and B undoes
 				else if(model.getTurn() && !model.prevIsP1()) { 
-					remainingUndo1.setText("[ A : - ]");
-					remainingUndo2.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+					gameText.setP1Text("[ A : - ]");
+					gameText.setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
 				}
 				//B's turn and B undoes
 				else if(!model.getTurn() && !model.prevIsP1()) {
-					remainingUndo1.setText("[ A : - ]");
-					remainingUndo2.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+					gameText.setP1Text("[ A : - ]");
+					gameText.setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
 				}
 				else {
-					remainingUndo1.setText("grr");
-					remainingUndo2.setText("brr");
+					gameText.setP1Text("grr"); //for testing
+					gameText.setP2Text("brr");
 				}
+				
 				model.popUndo();
 				model.update();
-				errorText.setVisible(false);
+				gameText.setErrorVisible(false);
 			}
 			
 		});
@@ -193,7 +178,6 @@ public class MancalaTest {
 					
 					undoButton.setVisible(true); //make undo visible after game starts
 					model.enableUndo(false); //need to make move before enabling button
-					remainingUndo.setVisible(true);
 					secondScreen.add(gameText, BorderLayout.SOUTH);
 				}
 			}
