@@ -42,9 +42,9 @@ public class MancalaTest {
 		 * initialScreen = the initial screen asking for desired style
 		 * secondScreen = the game screen after initial screen
 		 * gamePanel = center of second screen; the board with player and Mancala labels
-		 * numStonesPanel = bottom of second screen; asks to enter initial stone per pit amount
-		 * undoButton = top of second screen; allows player to undo 3x maximum in their current turn
-		 * winPanel = south of frame; displays current player/winner
+		 * numStonesPanel = south of second screen; asks to enter initial stone per pit amount
+		 * undoPanel = south of second screen; allows player to undo 3x maximum in their current turn
+		 * statePanel = south of frame; displays current player/winner
 		 */
 		
 		
@@ -94,8 +94,8 @@ public class MancalaTest {
 		 * GAME SCREEN
 		 * Display board with stones and undo button
 		 */
-		RemainingUndoPanel gameText = new RemainingUndoPanel(model);
-		model.attach(gameText);
+		UndoPanel undoPanel = new UndoPanel(model);
+		model.attach(undoPanel);
 		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(event -> {
@@ -109,7 +109,7 @@ public class MancalaTest {
 					numStonesPanel.setVisible(false);
 					
 					model.enableUndo(false); //need to make move before enabling button
-					secondScreen.add(gameText, BorderLayout.SOUTH);
+					secondScreen.add(undoPanel, BorderLayout.SOUTH);
 				}
 			}
 			catch(NumberFormatException ex){

@@ -1,5 +1,8 @@
 package mancala_proj;
-
+/**
+ * This program implements the Undo button and displays remaining undoes available and possible error messages
+ * @author pebbles
+ */
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,35 +16,40 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class RemainingUndoPanel extends JPanel implements ChangeListener{
+/**
+ * A Panel consisting of an undo button and labels that keep track of remaining undoes available and possible error messages
+ */
+public class UndoPanel extends JPanel implements ChangeListener{
 	private DataModel model;
 	private boolean isP1Turn;
 	private boolean prevIsP1;
 	private JLabel p1Label;
 	private JLabel p2Label;
-	private JLabel errorText;
+	private JLabel errorLabel;
 
 	/**
 	 * Constructs a panel that displays the number of undos remaining for a player and appropriate error messages.
 	 * @param model the model that manages data and views
 	 */
-	public RemainingUndoPanel(DataModel model) {
+	public UndoPanel(DataModel model) {
 		this.model = model;
 		isP1Turn = model.getTurn();
 		prevIsP1 = model.prevIsP1();
 		
 		JButton undoButton = new JButton("Undo");
 		undoButton.addActionListener(event -> {	
+			//all undoes used
 			if (model.getNumUndo() == 3) {
-				
-				if (model.getP1NumUndo() == 3) { //A used all undos
-					if(!model.getTurn()) { //B's turn
+				//A used all undoes
+				if (model.getP1NumUndo() == 3) {
+					//on B's turn
+					if(!model.getTurn()) {
 						setErrorText("Player A cannot use more undos. Player B make a move.");
 						setP1Text("[ A : - ]");
 						setP2Text("[ B : 3 ]");
 					}
-					//when Player A last move (couldn't undo) gives them a free turn
-					else { //A's turn
+					//on A's turn: when Player A last move (couldn't undo) gives them a free turn
+					else {
 						setErrorText("Player A cannot use more undos. Player A make a move.");
 						setP1Text("[ A : 0 ]");
 						setP2Text("[ B : - ]");
@@ -49,14 +57,16 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 					
 					setErrorVisible(true);
 				}
-				else if (model.getP2NumUndo() == 3) { //B used all undos
-					if(model.getTurn()) { //A's turn
+				//B used all undos
+				else if (model.getP2NumUndo() == 3) {
+					//on A's turn
+					if(model.getTurn()) {
 						setErrorText("Player B cannot use more undos. Player A make a move.");
 						setP1Text("[ A : 3 ]");
 						setP2Text("[ B : - ]");
 					}
-					//when Player B last move (couldn't undo) gives them a free turn
-					else { //B's turn
+					//on B's turn: when Player B last move (couldn't undo) gives them a free turn
+					else {
 						setErrorText("Player B cannot use more undos. Player B make a move.");
 						setP1Text("[ A : - ]");
 						setP2Text("[ B : 0 ]");
@@ -65,34 +75,27 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 				}
 				
 			}
-			else if (!model.isUndoEnabled()) { //can't undo
+			//can't undo (multiple times in a row)
+			else if (!model.isUndoEnabled()) {
 				setErrorText("Please make a move first.");
 				setErrorVisible(true);
 			}	
-			else if (model.getNumUndo() < 3) { //last player still has undo(es) left
+			//last player still has undo(es) left
+			else if (model.getNumUndo() < 3) { 
 				model.setNumUndo(model.getNumUndo() + 1);
-				//B's turn and A undoes
-				if(!model.getTurn() && model.prevIsP1()) { 
+				//A undoes on A or B's turn
+				if(!model.getTurn() && model.prevIsP1() || model.getTurn() && model.prevIsP1()) { 
 					setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
 					setP2Text("[ B : - ]");
 				}
-				//A's turn and A undoes
-				else if(model.getTurn() && model.prevIsP1()) {
-					setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-					setP2Text("[ B : - ]");
-				}
-				//A's turn and B undoes
-				else if(model.getTurn() && !model.prevIsP1()) { 
+				//B undoes on A or B's turn
+				else if(model.getTurn() && !model.prevIsP1() || !model.getTurn() && !model.prevIsP1()) { 
 					setP1Text("[ A : - ]");
 					setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
 				}
-				//B's turn and B undoes
-				else if(!model.getTurn() && !model.prevIsP1()) {
-					setP1Text("[ A : - ]");
-					setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
-				}
+				//for testing
 				else {
-					setP1Text("grr"); //for testing
+					setP1Text("grr");
 					setP2Text("brr");
 				}
 				
@@ -103,7 +106,7 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 			
 		});
 		
-		JLabel remainingUndo = new JLabel("Remaining Undos: ");
+		JLabel remainingUndo = new JLabel("Remaining Undoes: ");
 		remainingUndo.setFont(new Font("Arial", Font.PLAIN, 12));
 		remainingUndo.setHorizontalAlignment(JTextField.CENTER);
 		remainingUndo.setForeground(Color.BLACK);
@@ -118,25 +121,25 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 		p2Label.setHorizontalAlignment(JTextField.CENTER);
 		p2Label.setForeground(Color.BLACK);
 		
-		errorText = new JLabel();
-		errorText.setFont(new Font("Arial", Font.PLAIN, 12));
-		errorText.setHorizontalAlignment(JTextField.CENTER);
-		errorText.setForeground(Color.RED);
-		errorText.setVisible(false);
+		errorLabel = new JLabel();
+		errorLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		errorLabel.setHorizontalAlignment(JTextField.CENTER);
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setVisible(false);
 		
-		JPanel undoCountPanel = new JPanel();
-		undoCountPanel.add(undoButton);
-		undoCountPanel.add(remainingUndo);
-		undoCountPanel.add(p1Label);
-		undoCountPanel.add(p2Label);
+		JPanel undoPanel = new JPanel();
+		undoPanel.add(undoButton);
+		undoPanel.add(remainingUndo);
+		undoPanel.add(p1Label);
+		undoPanel.add(p2Label);
 		
 		setLayout(new BorderLayout());
-		add(errorText, BorderLayout.NORTH);
-		add(undoCountPanel, BorderLayout.SOUTH);
+		add(errorLabel, BorderLayout.NORTH);
+		add(undoPanel, BorderLayout.SOUTH);
 	}
 	
 	/**
-	 * Updates the remaining undos labels when the current player changes
+	 * Updates the remaining undos labels when the current player changes.
 	 * @param g the graphics context
 	 */
 	@Override
@@ -144,7 +147,7 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 		super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D) g;
 //	    //turn just changed (prev player may or may not be able to undo)
-//	    if(isP1Turn != prevIsP1 && !errorText.isVisible()) { 
+//	    if(isP1Turn != prevIsP1 && !errorLabel.isVisible()) { 
 //	    	//can't undo 
 //	    	if (!model.isUndoEnabled()) {
 //	    		//prev player B has no more undoes
@@ -198,7 +201,7 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 	 * @param text the error message
 	 */
 	public void setErrorText(String text) {
-		errorText.setText(text);
+		errorLabel.setText(text);
 	}
 	
 	/**
@@ -206,7 +209,7 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 	 * @param t determines if the error label is visible
 	 */
 	public void setErrorVisible(boolean t) {
-		errorText.setVisible(t);
+		errorLabel.setVisible(t);
 	}
 
 	/**
