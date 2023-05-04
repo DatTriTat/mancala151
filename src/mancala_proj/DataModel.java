@@ -129,6 +129,7 @@ public class DataModel {
 	 */
 	public void setFinalMoveP1(boolean t) {
 		finalMoveP1 = t;
+		finalMoveP2 = !t;
 	}
 	
 	/**
@@ -145,6 +146,7 @@ public class DataModel {
 	 */
 	public void setFinalMoveP2(boolean t) {
 		finalMoveP2 = t;
+		finalMoveP1 = !t;
 	}
 	
 	/**

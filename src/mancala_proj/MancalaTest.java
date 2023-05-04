@@ -94,19 +94,8 @@ public class MancalaTest {
 		 * GAME SCREEN
 		 * Display board with stones and undo button
 		 */
-//		JLabel errorText = new JLabel();
-//		errorText.setFont(new Font("Arial", Font.PLAIN, 12));
-//		errorText.setHorizontalAlignment(JTextField.CENTER);
-//		errorText.setForeground(Color.RED);
-//		errorText.setVisible(false);
-//		
 		RemainingUndoPanel gameText = new RemainingUndoPanel(model);
 		model.attach(gameText);
-//		
-//		
-//		JPanel gameText = new JPanel(new BorderLayout());
-//		gameText.add(errorText, BorderLayout.NORTH);
-//		gameText.add(remainingUndos, BorderLayout.SOUTH);
  
 		JButton undoButton = new JButton("Undo");
 		undoButton.setVisible(false);

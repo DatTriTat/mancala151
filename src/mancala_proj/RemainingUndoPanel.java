@@ -71,7 +71,7 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 	    //turn just changed (prev player may or may not be able to undo)
 	    if(isP1Turn != prevIsP1) { 
 	    	//can't undo (ex. undo before starting game)
-	    	if (!model.isUndoEnabled()) {
+	    	if (!model.isUndoEnabled() && !errorText.isVisible()) {
 				setErrorText("Please make a move first.");
 				setErrorVisible(true);
 			}	
