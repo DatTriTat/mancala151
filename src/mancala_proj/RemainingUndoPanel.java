@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,6 +30,62 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 		isP1Turn = model.getTurn();
 		prevIsP1 = model.prevIsP1();
 		
+		JButton undoButton = new JButton("Undo");
+		undoButton.addActionListener(event -> {	
+			
+			if (model.getNumUndo() == 3) {
+				if (model.isFinalMoveP1()) { //A used all undos
+					setErrorText("Player A cannot use more undos. Player B make a move.");
+					setP1Text("[ A : - ]");
+					setP2Text("[ B : 3 ]");
+					setErrorVisible(true);
+				}
+				else if (model.isFinalMoveP2()) { //B used all undos
+					setErrorText("Player B cannot use more undos. Player A make a move.");
+					setP1Text("[ A : 3 ]");
+					setP2Text("[ B : - ]");
+					setErrorVisible(true);
+				}
+				
+			}
+			else if (!model.isUndoEnabled()) { //can't undo
+				setErrorText("Please make a move first.");
+				setErrorVisible(true);
+			}	
+			else if (model.getNumUndo() < 3) { //last player still has undo(es) left
+				model.setNumUndo(model.getNumUndo() + 1);
+				//B's turn and A undoes
+				if(!model.getTurn() && model.prevIsP1()) { 
+					setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+					setP2Text("[ B : - ]");
+				}
+				//A's turn and A undoes
+				else if(model.getTurn() && model.prevIsP1()) {
+					setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+					setP2Text("[ B : - ]");
+				}
+				//A's turn and B undoes
+				else if(model.getTurn() && !model.prevIsP1()) { 
+					setP1Text("[ A : - ]");
+					setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+				}
+				//B's turn and B undoes
+				else if(!model.getTurn() && !model.prevIsP1()) {
+					setP1Text("[ A : - ]");
+					setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+				}
+				else {
+					setP1Text("grr"); //for testing
+					setP2Text("brr");
+				}
+				
+				model.popUndo();
+				model.update();
+				setErrorVisible(false);
+			}
+			
+		});
+		
 		JLabel remainingUndo = new JLabel("Remaining Undos: ");
 		remainingUndo.setFont(new Font("Arial", Font.PLAIN, 12));
 		remainingUndo.setHorizontalAlignment(JTextField.CENTER);
@@ -51,6 +108,7 @@ public class RemainingUndoPanel extends JPanel implements ChangeListener{
 		errorText.setVisible(false);
 		
 		JPanel undoCountPanel = new JPanel();
+		undoCountPanel.add(undoButton);
 		undoCountPanel.add(remainingUndo);
 		undoCountPanel.add(p1Label);
 		undoCountPanel.add(p2Label);

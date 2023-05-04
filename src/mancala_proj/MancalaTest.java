@@ -96,63 +96,6 @@ public class MancalaTest {
 		 */
 		RemainingUndoPanel gameText = new RemainingUndoPanel(model);
 		model.attach(gameText);
- 
-		JButton undoButton = new JButton("Undo");
-		undoButton.setVisible(false);
-		undoButton.addActionListener(event -> {	
-			
-			if (model.getNumUndo() == 3) {
-				if (model.isFinalMoveP1()) { //A used all undos
-					gameText.setErrorText("Player A cannot use more undos. Player B make a move.");
-					gameText.setP1Text("[ A : - ]");
-					gameText.setP2Text("[ B : 3 ]");
-					gameText.setErrorVisible(true);
-				}
-				else if (model.isFinalMoveP2()) { //B used all undos
-					gameText.setErrorText("Player B cannot use more undos. Player A make a move.");
-					gameText.setP1Text("[ A : 3 ]");
-					gameText.setP2Text("[ B : - ]");
-					gameText.setErrorVisible(true);
-				}
-				
-			}
-			else if (!model.isUndoEnabled()) { //can't undo
-				gameText.setErrorText("Please make a move first.");
-				gameText.setErrorVisible(true);
-			}	
-			else if (model.getNumUndo() < 3) { //last player still has undo(es) left
-				model.setNumUndo(model.getNumUndo() + 1);
-				//B's turn and A undoes
-				if(!model.getTurn() && model.prevIsP1()) { 
-					gameText.setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-					gameText.setP2Text("[ B : - ]");
-				}
-				//A's turn and A undoes
-				else if(model.getTurn() && model.prevIsP1()) {
-					gameText.setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-					gameText.setP2Text("[ B : - ]");
-				}
-				//A's turn and B undoes
-				else if(model.getTurn() && !model.prevIsP1()) { 
-					gameText.setP1Text("[ A : - ]");
-					gameText.setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
-				}
-				//B's turn and B undoes
-				else if(!model.getTurn() && !model.prevIsP1()) {
-					gameText.setP1Text("[ A : - ]");
-					gameText.setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
-				}
-				else {
-					gameText.setP1Text("grr"); //for testing
-					gameText.setP2Text("brr");
-				}
-				
-				model.popUndo();
-				model.update();
-				gameText.setErrorVisible(false);
-			}
-			
-		});
 		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(event -> {
@@ -165,7 +108,6 @@ public class MancalaTest {
 					model.update();
 					numStonesPanel.setVisible(false);
 					
-					undoButton.setVisible(true); //make undo visible after game starts
 					model.enableUndo(false); //need to make move before enabling button
 					secondScreen.add(gameText, BorderLayout.SOUTH);
 				}
@@ -176,7 +118,6 @@ public class MancalaTest {
 		});
 		
 		numStonesPanel.add(startButton, BorderLayout.SOUTH);
-		secondScreen.add(undoButton, BorderLayout.NORTH);
 		
 		/*
 		 * CURRENT TURN AND WINNER
