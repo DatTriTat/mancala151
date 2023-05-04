@@ -20,6 +20,8 @@ import javax.swing.event.ChangeListener;
  * A Panel consisting of an undo button and labels that keep track of remaining undoes available and possible error messages
  */
 public class UndoPanel extends JPanel implements ChangeListener{
+	public static final int MAX_UNDO = 3;
+	
 	private DataModel model;
 	private boolean isP1Turn;
 	private boolean prevIsP1;
@@ -39,14 +41,14 @@ public class UndoPanel extends JPanel implements ChangeListener{
 		JButton undoButton = new JButton("Undo");
 		undoButton.addActionListener(event -> {	
 			//all undoes used
-			if (model.getNumUndo() == 3) {
+			if (model.getNumUndo() == MAX_UNDO) {
 				//A used all undoes
-				if (model.getP1NumUndo() == 3) {
+				if (model.getP1NumUndo() == MAX_UNDO) {
 					//on B's turn
 					if(!model.getTurn()) {
 						setErrorText("Player A cannot use more undos. Player B make a move.");
 						setP1Text("[ A : - ]");
-						setP2Text("[ B : 3 ]");
+						setP2Text("[ B : " + MAX_UNDO + " ]");
 					}
 					//on A's turn: when Player A last move (couldn't undo) gives them a free turn
 					else {
@@ -58,11 +60,11 @@ public class UndoPanel extends JPanel implements ChangeListener{
 					setErrorVisible(true);
 				}
 				//B used all undos
-				else if (model.getP2NumUndo() == 3) {
+				else if (model.getP2NumUndo() == MAX_UNDO) {
 					//on A's turn
 					if(model.getTurn()) {
 						setErrorText("Player B cannot use more undos. Player A make a move.");
-						setP1Text("[ A : 3 ]");
+						setP1Text("[ A : " + MAX_UNDO + " ]");
 						setP2Text("[ B : - ]");
 					}
 					//on B's turn: when Player B last move (couldn't undo) gives them a free turn
@@ -81,22 +83,17 @@ public class UndoPanel extends JPanel implements ChangeListener{
 				setErrorVisible(true);
 			}	
 			//last player still has undo(es) left
-			else if (model.getNumUndo() < 3) { 
+			else if (model.getNumUndo() < MAX_UNDO) { 
 				model.setNumUndo(model.getNumUndo() + 1);
 				//A undoes on A or B's turn
 				if(!model.getTurn() && model.prevIsP1() || model.getTurn() && model.prevIsP1()) { 
-					setP1Text("[ A : " + (3 - model.getP1NumUndo()) + " ]");
+					setP1Text("[ A : " + (MAX_UNDO - model.getP1NumUndo()) + " ]");
 					setP2Text("[ B : - ]");
 				}
 				//B undoes on A or B's turn
 				else if(model.getTurn() && !model.prevIsP1() || !model.getTurn() && !model.prevIsP1()) { 
 					setP1Text("[ A : - ]");
-					setP2Text("[ B : " + (3 - model.getP2NumUndo()) + " ]");
-				}
-				//for testing
-				else {
-					setP1Text("grr");
-					setP2Text("brr");
+					setP2Text("[ B : " + (MAX_UNDO - model.getP2NumUndo()) + " ]");
 				}
 				
 				model.popUndo();
@@ -111,7 +108,7 @@ public class UndoPanel extends JPanel implements ChangeListener{
 		remainingUndo.setHorizontalAlignment(JTextField.CENTER);
 		remainingUndo.setForeground(Color.BLACK);
 		
-		p1Label = new JLabel("[ A : 3 ]");
+		p1Label = new JLabel("[ A : " + MAX_UNDO + " ]");
 		p1Label.setFont(new Font("Arial", Font.PLAIN, 12));
 		p1Label.setHorizontalAlignment(JTextField.CENTER);
 		p1Label.setForeground(Color.BLACK);
@@ -136,48 +133,6 @@ public class UndoPanel extends JPanel implements ChangeListener{
 		setLayout(new BorderLayout());
 		add(errorLabel, BorderLayout.NORTH);
 		add(undoPanel, BorderLayout.SOUTH);
-	}
-	
-	/**
-	 * Updates the remaining undos labels when the current player changes.
-	 * @param g the graphics context
-	 */
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	    Graphics2D g2d = (Graphics2D) g;
-//	    //turn just changed (prev player may or may not be able to undo)
-//	    if(isP1Turn != prevIsP1 && !errorLabel.isVisible()) { 
-//	    	//can't undo 
-//	    	if (!model.isUndoEnabled()) {
-//	    		//prev player B has no more undoes
-//		    	if(isP1Turn && model.getP2NumUndo() == 3) {
-//					p1Label.setText("[ A : 3 ]");
-//					p2Label.setText("[ B : - ]");
-//				}
-//		    	//prev player A has no more undos
-//				else if(!isP1Turn && model.getP1NumUndo() == 3) {
-//					p1Label.setText("[ A : - ]");
-//					p2Label.setText("[ B : 3 ]");
-//				}
-//		    	// (e.g. undo before starting game)
-//				else {
-//					setErrorText("Please make a move first.");
-//					setErrorVisible(true);
-//				}
-//				
-//			}	
-//			//prev player B can undo
-//			else if(isP1Turn) {
-//				p1Label.setText("[ A : 3 ]");
-//				p2Label.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
-//			}
-//			//prev player A can undo
-//			else if(!isP1Turn) {
-//				p1Label.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-//				p2Label.setText("[ B : 3 ]");
-//			}
-//	    }
 	}
 	
 	/**
@@ -217,23 +172,22 @@ public class UndoPanel extends JPanel implements ChangeListener{
 	 * @param e the change event
 	 */
 	@Override
-	public void stateChanged(ChangeEvent e) { //should be called when a pit is pressed
+	public void stateChanged(ChangeEvent e) { //should be called when a pit is pressed or undo is pressed
 		isP1Turn = model.getTurn();
 		prevIsP1 = model.prevIsP1();
-//		repaint();
 		//turn just changed (prev player may or may not be able to undo)
 	    if(isP1Turn != prevIsP1) { 
 	    	//can't undo 
 	    	if (!model.isUndoEnabled()) {
 	    		//prev player B has no more undoes
-		    	if(isP1Turn && model.getP2NumUndo() == 3) {
-					p1Label.setText("[ A : 3 ]");
+		    	if(isP1Turn && model.getP2NumUndo() == MAX_UNDO) {
+					p1Label.setText("[ A : " + MAX_UNDO + " ]");
 					p2Label.setText("[ B : - ]");
 				}
 		    	//prev player A has no more undos
-				else if(!isP1Turn && model.getP1NumUndo() == 3) {
+				else if(!isP1Turn && model.getP1NumUndo() == MAX_UNDO) {
 					p1Label.setText("[ A : - ]");
-					p2Label.setText("[ B : 3 ]");
+					p2Label.setText("[ B : " + MAX_UNDO + " ]");
 				}
 		    	// (e.g. undo before starting game)
 				else {
@@ -244,13 +198,13 @@ public class UndoPanel extends JPanel implements ChangeListener{
 			}	
 			//prev player B can undo
 			else if(isP1Turn) {
-				p1Label.setText("[ A : 3 ]");
-				p2Label.setText("[ B : " + (3 - model.getP2NumUndo()) + " ]");
+				p1Label.setText("[ A : " + MAX_UNDO + " ]");
+				p2Label.setText("[ B : " + (MAX_UNDO - model.getP2NumUndo()) + " ]");
 			}
 			//prev player A can undo
 			else if(!isP1Turn) {
-				p1Label.setText("[ A : " + (3 - model.getP1NumUndo()) + " ]");
-				p2Label.setText("[ B : 3 ]");
+				p1Label.setText("[ A : " + (MAX_UNDO - model.getP1NumUndo()) + " ]");
+				p2Label.setText("[ B : " + MAX_UNDO + " ]");
 			}
 	    }
 	    setErrorVisible(false);
