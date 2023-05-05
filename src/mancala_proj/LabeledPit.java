@@ -21,6 +21,7 @@ public class LabeledPit extends JPanel {
 	
 	/**
 	 * Constructs labeled pit.
+	 * @param model the model that manages data and views
 	 * @param letterNum the label of the pit (e.g. A1)
 	 * @precondition letterNum has 2 characters: letterNum.charAt(0) is 'A' or 'B' and letterNum.char(1) is a digit
 	 */

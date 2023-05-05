@@ -21,8 +21,7 @@ public class MancalaPit extends JPanel{
 	private int yStone = 0;
 	
 	/**
-	 * Constructs a pit.
-	 * @param letterNum the label associated with this pit
+	 * Constructs a Mancala pit.
 	 */
 	public MancalaPit() {
 		stones = new ArrayList<>();

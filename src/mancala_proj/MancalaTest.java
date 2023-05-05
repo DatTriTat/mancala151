@@ -6,8 +6,6 @@ package mancala_proj;
  */
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.util.TreeMap;
 
 import javax.swing.JButton;

@@ -32,7 +32,7 @@ public class StoneShape implements Shape {
 
 	/**
 	 * Draws the stone.
-	 * @param g2
+	 * @param g2 the Graphics2D
 	 */
 	public void draw(Graphics2D g2) {
 		g2.setColor(color);
@@ -73,7 +73,7 @@ public class StoneShape implements Shape {
 	/**
 	 * Returns the y coordinate of the next stone after adding one to a pit.
 	 * @param pitWidth the width of the pit
-	 * @param nextX    the x coordinate of the next stone
+	 * @param nextX the x coordinate of the next stone
 	 * @return the y coordinate of the next stone after adding one to a pit
 	 */
 	public int getNextY(int pitWidth, int nextX) {

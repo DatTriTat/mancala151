@@ -26,7 +26,7 @@ public class MancalaBoard extends JPanel implements ChangeListener {
 
     /**
      * Constructs this board.
-     * @param model the model that manages the data and views. 
+     * @param model the model that manages the data and views 
      */
     public MancalaBoard(DataModel m) {
     	model = m; //set model of frame to DataModel

@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 /**
  * This class represents a pit, which can contain stones.
@@ -18,7 +17,6 @@ public class Pit extends JPanel{
 	public static final int PIT_WIDTH = 100;
 	public static final Color STONE_COLOR = Color.GRAY;
 	
-	private String label;
 	private ArrayList<StoneShape> stones;
 	private int xStone = 0;
 	private int yStone = 0;
@@ -33,7 +31,6 @@ public class Pit extends JPanel{
 			throw new IllegalArgumentException(letterNum + " is an invalid label; must be a letter and a 1 digit number (e.g. A1)");
 		}
 		//initialize instance variables
-		label = letterNum;
 		stones = new ArrayList<>();
 		setPreferredSize(new Dimension(PIT_WIDTH, PIT_WIDTH));
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -59,7 +56,7 @@ public class Pit extends JPanel{
 	}
 	
 	/**
-	 * Takes away a stone from this pit.
+	 * Removes a stone from this pit.
 	 */
 	public void subtractStone() {
 		if(stones.size() > 0) {
