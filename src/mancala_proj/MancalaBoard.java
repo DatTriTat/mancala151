@@ -99,7 +99,6 @@ public class MancalaBoard extends JPanel implements ChangeListener {
         		for (int i = player1Mancala.getNumStones(); i > dataMap.get("player1"); i--) {
             		player1Mancala.subtractStone();
             	}
-        		player1Mancala.repaint();
         	}
         	else if (s.equals("player2")) { //update player2 mancala
         		for (int i = player2Mancala.getNumStones(); i < dataMap.get("player2"); i++) {
@@ -108,7 +107,6 @@ public class MancalaBoard extends JPanel implements ChangeListener {
         		for (int i = player2Mancala.getNumStones(); i > dataMap.get("player2"); i--) {
             		player2Mancala.subtractStone();
             	}
-        		player2Mancala.repaint();
         	}
         	else { //update pits
             	LabeledPit aPit = pits.get(currListIndex);
@@ -118,7 +116,6 @@ public class MancalaBoard extends JPanel implements ChangeListener {
             	for (int i = aPit.getNumStones(); i > dataMap.get(s); i--) {
             		aPit.subtractStone();
             	}
-            	aPit.repaint();
             	
             	currListIndex++;
         	}

@@ -81,8 +81,7 @@ public class StoneShape implements Shape {
 		if (nextX == 0) {
 			yNew += STONE_DIAMETER;
 		}
-		if (y >= pitWidth) {
-			// throw exception: pit not big enough
+		if(y >= pitWidth) {
 		}
 		return yNew;
 
@@ -143,7 +142,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -175,40 +173,40 @@ public class StoneShape implements Shape {
 		throw new UnsupportedOperationException();
 	}
 
-/**
- * Tests if the interior of the shape entirely contains the interior of a specified rectangular area.
- *
- * @param r the rectangular area to be tested
- * @return {@code true} if the interior of the shape entirely contains the interior of the specified rectangular area; {@code false} otherwise
- * @throws UnsupportedOperationException if this method is not supported by the shape
- */
-@Override
-public boolean contains(Rectangle2D r) {
-    throw new UnsupportedOperationException();
-}
+	/**
+	 * Tests if the interior of the shape entirely contains the interior of a specified rectangular area.
+	 *
+	 * @param r the rectangular area to be tested
+	 * @return {@code true} if the interior of the shape entirely contains the interior of the specified rectangular area; {@code false} otherwise
+	 * @throws UnsupportedOperationException if this method is not supported by the shape
+	 */
+	@Override
+	public boolean contains(Rectangle2D r) {
+		throw new UnsupportedOperationException();
+	}
 
-/**
- * Returns an iterator object that iterates along the boundary of the shape.
- * @param  AffineTransform to be applied to the shape's coordinates, 
- * @return PathIterator object that iterates along the boundary of the shape
- * @throws UnsupportedOperationException if this method is not supported by the shape
- */
-@Override
-public PathIterator getPathIterator(AffineTransform at) {
-    throw new UnsupportedOperationException();
-}
+	/**
+	 * Returns an iterator object that iterates along the boundary of the shape.
+	 * @param  AffineTransform to be applied to the shape's coordinates, 
+	 * @return PathIterator object that iterates along the boundary of the shape
+	 * @throws UnsupportedOperationException if this method is not supported by the shape
+	 */
+	@Override
+	public PathIterator getPathIterator(AffineTransform at) {
+		throw new UnsupportedOperationException();
+	}
 
-/**
- * Returns an iterator object that iterates along the boundary of the shape, flattening the path segments with the specified flatness.
- * @param AffineTransform to be applied to the shape's coordinates, 
- * @param flatness the maximum distance that the line segments used to approximate the curved segments are allowed to deviate from the true curve
- * @return PathIterator object that iterates along the boundary of the shape
- * @throws UnsupportedOperationException if this method is not supported by the shape
- */
-@Override
-public PathIterator getPathIterator(AffineTransform at, double flatness) {
-    throw new UnsupportedOperationException();
-}
+	/**
+	 * Returns an iterator object that iterates along the boundary of the shape, flattening the path segments with the specified flatness.
+	 * @param AffineTransform to be applied to the shape's coordinates, 
+	 * @param flatness the maximum distance that the line segments used to approximate the curved segments are allowed to deviate from the true curve
+	 * @return PathIterator object that iterates along the boundary of the shape
+	 * @throws UnsupportedOperationException if this method is not supported by the shape
+	 */
+	@Override
+	public PathIterator getPathIterator(AffineTransform at, double flatness) {
+		throw new UnsupportedOperationException();
+	}
 
 
 }
