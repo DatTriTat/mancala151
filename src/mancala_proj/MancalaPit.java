@@ -63,6 +63,10 @@ public class MancalaPit extends JPanel{
 		repaint();
 	}
 	
+	/**
+	 * Set background color for pits
+	 * @param style associated with this pit
+	 */
 	public void setColor(StyleManager style) {
 		setBackground(style.getPitColor());
 	}

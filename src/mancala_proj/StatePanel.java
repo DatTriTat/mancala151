@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 
 /**
  * The panel that contains a label that displays the current player or the winner.
+ *  * @author pebbles
  */
 public class StatePanel extends JPanel implements ChangeListener{
 	private DataModel model;

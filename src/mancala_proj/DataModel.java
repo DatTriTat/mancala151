@@ -1,9 +1,17 @@
 package mancala_proj;
 
+/**
+ * This class represents the model of the mancalas game.
+ * @author pebbles
+ */
+
 import java.util.*;
 import java.util.Map.*;
 import javax.swing.event.*;
 
+/**
+ * This class represents the model of the mancalas game.
+ */
 public class DataModel {
 	private TreeMap<String, Integer> data; 
 	private ArrayList<ChangeListener> listeners;
@@ -368,6 +376,10 @@ public class DataModel {
 		return numUndoP2;
 	}
 	
+	/**
+	 * Returns previous turn for Player
+	 * @return previous turn for Player;
+	 */
 	public boolean prevIsP1() {
 		return prevTurn;
 	}

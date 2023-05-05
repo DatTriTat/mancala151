@@ -18,6 +18,7 @@ import javax.swing.event.ChangeListener;
 
 /**
  * A Panel consisting of an undo button and labels that keep track of remaining undoes available and possible error messages
+ *  @author pebbles
  */
 public class UndoPanel extends JPanel implements ChangeListener{
 	public static final int MAX_UNDO = 3;
