@@ -95,7 +95,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -106,7 +105,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public Rectangle2D getBounds2D() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -119,7 +117,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public boolean contains(double x, double y) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -131,7 +128,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public boolean contains(Point2D p) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -161,7 +157,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -177,7 +172,6 @@ public class StoneShape implements Shape {
 	 */
 	@Override
 	public boolean contains(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
@@ -190,7 +184,6 @@ public class StoneShape implements Shape {
  */
 @Override
 public boolean contains(Rectangle2D r) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException();
 }
 
@@ -202,7 +195,6 @@ public boolean contains(Rectangle2D r) {
  */
 @Override
 public PathIterator getPathIterator(AffineTransform at) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException();
 }
 
@@ -215,7 +207,6 @@ public PathIterator getPathIterator(AffineTransform at) {
  */
 @Override
 public PathIterator getPathIterator(AffineTransform at, double flatness) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException();
 }
 
