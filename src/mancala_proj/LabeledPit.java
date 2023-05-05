@@ -53,9 +53,9 @@ public class LabeledPit extends JPanel {
 	}
 	
 	/**
-	 * Paints the labeled pit.
-	 * @param g the graphics
-	 */
+   * Paints labeled pit.
+   * @param g graphics tool
+   */
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -139,6 +139,5 @@ public class LabeledPit extends JPanel {
 				}
 			}
 		}
-	}
-	
+	}	
 }

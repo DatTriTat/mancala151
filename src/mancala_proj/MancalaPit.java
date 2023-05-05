@@ -64,8 +64,8 @@ public class MancalaPit extends JPanel{
 	}
 	
 	/**
-	 * Sets the color of the pits based on the style chosen.
-	 * @param style chosen by the player at the beginning of the game
+	 * Set background color for pits
+	 * @param style associated with this pit
 	 */
 	public void setColor(StyleManager style) {
 		setBackground(style.getPitColor());
