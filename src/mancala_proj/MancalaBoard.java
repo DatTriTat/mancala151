@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This program implements the Mancala board
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import javax.swing.*;

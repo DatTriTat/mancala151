@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * Declares required methods of Mancala styles.
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.Color;

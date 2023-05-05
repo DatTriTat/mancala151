@@ -1,8 +1,8 @@
 package mancala_proj;
 
 /**
- * This class represents the model of the mancalas game.
- * @author pebbles
+ * This program implements a model that holds the board data.
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.util.*;
@@ -10,7 +10,7 @@ import java.util.Map.*;
 import javax.swing.event.*;
 
 /**
- * This class represents the model of the mancalas game.
+ * A data model that keeps track of stones in each pit, who's turn it is, and previous turns.
  */
 public class DataModel {
 	private TreeMap<String, Integer> data; 
@@ -65,7 +65,7 @@ public class DataModel {
 	
 	/**
 	 * Sets starting amount of stones in each pit based on user input.
-	 * @param integer of stones to put in each pit
+	 * @param num: integer of stones to put in each pit
 	 */
 	public void setData(int num) {
 		if (num == 3) {
@@ -86,7 +86,7 @@ public class DataModel {
 	
 	/**
 	 * Set whether or not the game is currently running.
-	 * @param boolean value that represents game status (true for running, false for not running)
+	 * @param g: boolean value that represents game status (true for running, false for not running)
 	 */
 	public void setGame(boolean g) {
 		ongoingGame = g;
@@ -102,17 +102,10 @@ public class DataModel {
 	
 	/**
 	 * Set which player's turn it is.
-	 * @param boolean value representing player turn (true for P1, false for P2).
+	 * @param t: boolean value representing player turn (true for P1, false for P2).
 	 */
 	public void setTurn(boolean t) {
 		p1Turn = t;
-	}
-	
-	public String getCurrentPlayer() {
-		if(getTurn()) {
-			return "A";
-		}
-		return "B";
 	}
 	
 	/**
@@ -121,40 +114,6 @@ public class DataModel {
 	 */
 	public boolean getTurn() {
 		return p1Turn;
-	}
-	
-	/**
-	 * Determine if P1 can perform more undos.
-	 * @return boolean value representing if it is P1's final move.
-	 */
-	public boolean isFinalMoveP1() {
-		return finalMoveP1;
-	}
-	
-	/**
-	 * Set whether or not P1 can perform more undos.
-	 * @param t: boolean value representing if it is P1's final move.
-	 */
-	public void setFinalMoveP1(boolean t) {
-		finalMoveP1 = t;
-		finalMoveP2 = !t;
-	}
-	
-	/**
-	 * Determine if P1 can perform more undos.
-	 * @return boolean value representing if it is P2's final move.
-	 */
-	public boolean isFinalMoveP2() {
-		return finalMoveP2;
-	}
-	
-	/**
-	 * Set whether or not P1 can perform more undos.
-	 * @param t: boolean value representing if it is P2's final move.
-	 */
-	public void setFinalMoveP2(boolean t) {
-		finalMoveP2 = t;
-		finalMoveP1 = !t;
 	}
 	
 	/**
@@ -249,11 +208,9 @@ public class DataModel {
 				p1Turn = false;
 				if (numUndoP1 == 3) {
 					enableUndo(false);
-					setFinalMoveP1(true);
 					numUndoP2 = 0;
 					return;
 				}
-				setFinalMoveP1(false);
 				numUndoP2 = 0;
 				return;
 			}
@@ -261,11 +218,9 @@ public class DataModel {
 				p1Turn = true;
 				if (numUndoP2 == 3) {
 					enableUndo(false);
-					setFinalMoveP2(true);
 					numUndoP1 = 0;
 					return;
 				}
-				setFinalMoveP2(false);
 				numUndoP1 = 0;
 				return;
 			}
@@ -377,8 +332,8 @@ public class DataModel {
 	}
 	
 	/**
-	 * Returns previous turn for Player
-	 * @return previous turn for Player;
+	 * Determine if the previous turn was P1.
+	 * @return boolean value representing whether or not it was P1's turn.
 	 */
 	public boolean prevIsP1() {
 		return prevTurn;

@@ -1,7 +1,8 @@
 package mancala_proj;
+
 /**
- *This program implements the initial screen of the Mancala game.
- * @author pebbles
+ * This program implements the initial screen of the Mancala game.
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.event.*;

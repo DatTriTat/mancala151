@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This class defines the dark mode style of the Mancala board
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.Color;

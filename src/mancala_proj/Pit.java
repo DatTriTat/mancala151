@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This program implements a Mancala pit that a user can interact with to move stones. (viewer and controller)
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.*;

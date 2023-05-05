@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This program implements a labeled pit, consisting of a label and a Mancala pit.
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.*;
@@ -53,9 +53,9 @@ public class LabeledPit extends JPanel {
 	}
 	
 	/**
-     * Paints labeled pit.
-     * @param g graphics tool
-     */
+   * Paints labeled pit.
+   * @param g graphics tool
+   */
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -139,6 +139,5 @@ public class LabeledPit extends JPanel {
 				}
 			}
 		}
-	}
-	
+	}	
 }

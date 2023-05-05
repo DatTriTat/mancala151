@@ -1,12 +1,13 @@
 package mancala_proj;
+
 /**
  * The program displays the current player or the winner of the game.
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
+
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 
 /**
  * The panel that contains a label that displays the current player or the winner.

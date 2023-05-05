@@ -1,20 +1,13 @@
 package mancala_proj;
+
 /**
  * This program implements the Undo button and displays remaining undoes available and possible error messages
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 /**
  * A Panel consisting of an undo button and labels that keep track of remaining undoes available and possible error messages
