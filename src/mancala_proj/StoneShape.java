@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This program represents a Mancala stone.
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.*;

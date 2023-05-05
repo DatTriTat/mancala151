@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This program tests the Mancala game
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.BorderLayout;

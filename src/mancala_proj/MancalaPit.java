@@ -2,7 +2,7 @@ package mancala_proj;
 
 /**
  * This program represents a Mancala.
- * @author pebbles
+ * @author pebbles (Sandra Le, Dat Tri Tat, Ysabella Dela Cruz)
  */
 
 import java.awt.*;
@@ -63,6 +63,10 @@ public class MancalaPit extends JPanel{
 		repaint();
 	}
 	
+	/**
+	 * Sets the color of the pits based on the style chosen.
+	 * @param style chosen by the player at the beginning of the game
+	 */
 	public void setColor(StyleManager style) {
 		setBackground(style.getPitColor());
 	}
